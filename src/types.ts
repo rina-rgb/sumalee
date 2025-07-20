@@ -1,4 +1,5 @@
 export type Booking = {
+  id: string;
   therapistId: string;
   firstName: string;
   lastName: string;
@@ -17,3 +18,28 @@ export type Therapist = {
   avatarUrl?: string;
   color?: string; // optional for visual separation
 };
+
+export type TimeSlotProps = {
+  time: number;
+  onClick?: (time: number) => void;
+  showTimeOnly?: boolean;
+  showSlotOnly?: boolean;
+};
+
+export type ModalPayload =
+  | { type: "new"; time: number; therapistId: string }
+  | { type: "edit"; bookingId: string };
+
+export type TimeGridProps = {
+  bookings: Booking[];
+  currentDate: Date;
+  openModal: (payload: ModalPayload) => void;
+};
+
+export type BookingModalProps = {
+  isOpen: boolean;
+  onClose: () => void;
+  formAction: (formData: FormData) => void;
+  bookingData: Booking | null;
+};
+

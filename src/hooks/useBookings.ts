@@ -1,64 +1,63 @@
 import { useState } from "react";
-import type { Booking } from "../types"
-type SelectedTimeSlot = { time: number; therapistId: string } | null;
+import type { Booking } from "../types";
+
+type ModalPayload =
+  | { type: "new"; time: number; therapistId: string }
+  | { type: "edit"; bookingId: string };
 
 export function useBookings(currentDate: Date) {
   const [bookings, setBookings] = useState<Booking[]>([]);
   const [isOpen, setIsOpen] = useState(false);
-  const [selectedTimeSlot, setSelectedTimeSlot] = useState<SelectedTimeSlot>(null);
-  const [selectedBooking, setSelectedBooking] = useState<Booking | null>(null); // NEW
+  const [bookingData, setBookingData] = useState<(Booking & { type: "new" | "edit" }) | null>(null);
 
-  function isBooking(payload: unknown): payload is Booking {
-    return (
-      typeof payload === "object" &&
-      payload !== null &&
-      "startTime" in payload
-    );
-  }
-  
-  const openModal = (payload: SelectedTimeSlot | Booking) => {
-    if (isBooking(payload)) {
-      setSelectedTimeSlot({
-        time: payload.startTime,
-        therapistId: payload.therapistId,
-      });
-      setSelectedBooking(payload);
+  const openModal = (payload: ModalPayload) => {
+    if (payload.type === "edit") {
+      const existing = bookings.find((b) => b.id === payload.bookingId);
+      if (!existing) return;
+      setBookingData({ ...existing, type: "edit" });
     } else {
-      setSelectedTimeSlot(payload);
-      setSelectedBooking(null);
+      setBookingData({
+        id: crypto.randomUUID(),
+        type: "new",
+        startTime: payload.time,
+        therapistId: payload.therapistId,
+        date: currentDate.toISOString().split("T")[0],
+        firstName: "",
+        lastName: "",
+        email: "",
+        phone: "",
+        service: "",
+        durationMinutes: 0,
+        notes: "",
+      });
     }
-  
+
     setIsOpen(true);
   };
 
   const closeModal = () => {
     setIsOpen(false);
-    setSelectedTimeSlot(null);
-    setSelectedBooking(null);
+    setBookingData(null);
   };
 
   const handleFormAction = (formData: FormData) => {
-    if (selectedTimeSlot === null) return;
+    if (!bookingData) return;
 
-    const newBooking: Booking = {
+    const updated: Booking = {
+      ...bookingData,
       firstName: formData.get("first_name") as string,
       lastName: formData.get("last_name") as string,
       email: formData.get("email") as string,
       phone: formData.get("phone") as string,
       service: formData.get("service") as string,
-      startTime: selectedTimeSlot.time,
       durationMinutes: Number(formData.get("duration")),
       notes: formData.get("notes") as string,
-      date: currentDate.toISOString().split("T")[0],
-      therapistId: selectedTimeSlot.therapistId
     };
 
-    setBookings((prev) => {
-      const updated = prev.filter(
-        (b) => !(b.startTime === selectedTimeSlot.time && b.date === newBooking.date)
-      );
-      return [...updated, newBooking];
-    });
+    setBookings((prev) => [
+      ...prev.filter((b) => b.id !== updated.id),
+      updated,
+    ]);
 
     closeModal();
   };
@@ -66,8 +65,7 @@ export function useBookings(currentDate: Date) {
   return {
     bookings,
     isOpen,
-    selectedTimeSlot,
-    selectedBooking, // expose this
+    bookingData,
     openModal,
     closeModal,
     handleFormAction,

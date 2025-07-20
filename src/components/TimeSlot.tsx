@@ -1,11 +1,6 @@
+import type { TimeSlotProps } from "../types";
 import { formatHour } from "../utils/time";
 
-type TimeSlotProps = {
-  time: number;
-  onClick?: (time: number) => void;
-  showTimeOnly?: boolean;
-  showSlotOnly?: boolean;
-};
 export default function TimeSlot({
   time,
   onClick,
@@ -35,7 +30,7 @@ export default function TimeSlot({
       {showSlotOnly && (
         <div
           className="hover:bg-gray-50 w-full h-full cursor-pointer"
-          onClick={() => onClick(time)}
+          onClick={() => onClick?.(time)}
         />
       )}
     </div>

@@ -1,5 +1,5 @@
 import "./App.css";
-import Calendar from "./pages/Calendar";
+import Calendar from "./components/Calendar";
 
 function App() {
   return (

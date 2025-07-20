@@ -11,23 +11,18 @@ import { Input } from "../tw-components/input";
 import { Select } from "../tw-components/select";
 import { Text } from "../tw-components/text";
 import { Textarea } from "../tw-components/textarea";
-import type { Booking } from "../types";
-
-type BookingModalProps = {
-  isOpen: boolean;
-  onClose: () => void;
-  selectedBooking: Booking | { startTime: number } | null;
-  formAction: (formData: FormData) => void;
-};
+import type { BookingModalProps } from "../types";
 
 export default function BookingModal({
   isOpen,
   onClose,
-  selectedBooking,
   formAction,
+  bookingData,
 }: BookingModalProps) {
-  // Check if this is an existing booking (has firstName) or a new booking (only has startTime)
-  const isExistingBooking = selectedBooking && "firstName" in selectedBooking;
+  if (!bookingData) return null;
+
+  const isExistingBooking = bookingData.firstName !== ""; // or maybe bookingData.id is already in your `bookings`
+
   const {
     firstName,
     lastName,
@@ -37,7 +32,7 @@ export default function BookingModal({
     startTime,
     durationMinutes,
     notes,
-  } = selectedBooking && "firstName" in selectedBooking ? selectedBooking : {};
+  } = bookingData;
 
   return (
     <Dialog open={isOpen} onClose={onClose}>
@@ -55,43 +50,25 @@ export default function BookingModal({
             <div className="sm:gap-4 grid grid-cols-1 sm:grid-cols-2">
               <Field>
                 <Label>First name</Label>
-                <Input
-                  name="first_name"
-                  defaultValue={firstName || ""}
-                  required
-                />
+                <Input name="first_name" defaultValue={firstName} required />
               </Field>
               <Field>
                 <Label>Last name</Label>
-                <Input
-                  name="last_name"
-                  defaultValue={lastName || ""}
-                  required
-                />
+                <Input name="last_name" defaultValue={lastName} required />
               </Field>
             </div>
             <Field>
               <Label>Email</Label>
-              <Input
-                name="email"
-                type="email"
-                defaultValue={email || ""}
-                required
-              />
+              <Input name="email" type="email" defaultValue={email} required />
             </Field>
             <Field>
               <Label>Phone</Label>
-              <Input
-                name="phone"
-                type="tel"
-                defaultValue={phone || ""}
-                required
-              />
+              <Input name="phone" type="tel" defaultValue={phone} required />
             </Field>
             <FieldGroup>
               <Field>
                 <Label>Service</Label>
-                <Select name="service" defaultValue={service || ""} required>
+                <Select name="service" defaultValue={service} required>
                   <option value="">Select a service</option>
                   <option value="Massage Therapy">Massage Therapy</option>
                   <option value="Acupuncture">Acupuncture</option>
@@ -103,7 +80,7 @@ export default function BookingModal({
                 <Label>Duration</Label>
                 <Select
                   name="duration"
-                  defaultValue={durationMinutes?.toString() || ""}
+                  defaultValue={durationMinutes.toString()}
                   required
                 >
                   <option value="">Select duration</option>
@@ -119,7 +96,7 @@ export default function BookingModal({
                   name="notes"
                   rows={3}
                   placeholder="Any special requests or notes..."
-                  defaultValue={notes || ""}
+                  defaultValue={notes}
                 />
               </Field>
             </FieldGroup>

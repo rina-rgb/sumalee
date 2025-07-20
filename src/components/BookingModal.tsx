@@ -1,4 +1,3 @@
-import type { Booking } from "../pages/Calendar";
 import { Button } from "../tw-components/button";
 import { Dialog, DialogActions } from "../tw-components/dialog";
 import {
@@ -12,6 +11,7 @@ import { Input } from "../tw-components/input";
 import { Select } from "../tw-components/select";
 import { Text } from "../tw-components/text";
 import { Textarea } from "../tw-components/textarea";
+import type { Booking } from "../types";
 
 type BookingModalProps = {
   isOpen: boolean;
@@ -44,7 +44,7 @@ export default function BookingModal({
             {startTime}:00.
           </Text>
           <FieldGroup>
-            <div className="gap-8 sm:gap-4 grid grid-cols-1 sm:grid-cols-2">
+            <div className="sm:gap-4 grid grid-cols-1 sm:grid-cols-2">
               <Field>
                 <Label>First name</Label>
                 <Input
@@ -92,6 +92,16 @@ export default function BookingModal({
                 </Select>
               </Field>
               <Field>
+                <Label>Duration</Label>
+                <Select name="duration" defaultValue="" required>
+                  <option value="">Select duration</option>
+                  <option value="30">30 mins</option>
+                  <option value="45">45 mins</option>
+                  <option value="60">1 hour</option>
+                  <option value="90">90 minutes</option>
+                </Select>
+              </Field>
+              <Field>
                 <Label>Additional Notes</Label>
                 <Textarea
                   name="notes"
@@ -104,7 +114,6 @@ export default function BookingModal({
           </FieldGroup>
         </Fieldset>
       </form>
-
       <DialogActions>
         <Button color="red" onClick={onClose}>
           Cancel

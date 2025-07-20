@@ -11,6 +11,7 @@ export function useCalendarData(bookings: Booking[], date: Date) {
     { length: (endHour - startHour) * 4 },
     (_, i) => startHour + i * 0.25 // 15-minute increments
   );
+
   const getBookingsAtSlot = (hour: number) =>
     bookingsForDay.filter((b) => b.startTime === hour);
 

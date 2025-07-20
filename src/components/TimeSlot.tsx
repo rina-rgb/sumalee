@@ -2,7 +2,7 @@ import { formatHour } from "../utils/time";
 
 type TimeSlotProps = {
   time: number;
-  onClick: (time: number) => void;
+  onClick?: (time: number) => void;
   showTimeOnly?: boolean;
   showSlotOnly?: boolean;
 };
@@ -16,7 +16,9 @@ export default function TimeSlot({
 
   return (
     <div
-      className={`h-6 text-xs ${isFullHour ? "border-t border-gray-200" : ""}`}
+      className={`h-6 m-0 text-xs ${
+        isFullHour ? "border-t border-gray-200" : ""
+      }`}
     >
       {showTimeOnly && (
         <div

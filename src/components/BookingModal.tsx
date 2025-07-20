@@ -12,63 +12,71 @@ import { Select } from "../tw-components/select";
 import { Text } from "../tw-components/text";
 import { Textarea } from "../tw-components/textarea";
 import type { BookingModalProps } from "../types";
+import { formatHour } from "../utils/time";
 
 export default function BookingModal({
   isOpen,
   onClose,
-  formAction,
+  onSubmit,
   bookingData,
+  isEditing,
 }: BookingModalProps) {
   if (!bookingData) return null;
 
-  const isExistingBooking = bookingData.firstName !== ""; // or maybe bookingData.id is already in your `bookings`
-
-  const {
-    firstName,
-    lastName,
-    email,
-    phone,
-    service,
-    startTime,
-    durationMinutes,
-    notes,
-  } = bookingData;
-
   return (
     <Dialog open={isOpen} onClose={onClose}>
-      <form id="booking-form" action={formAction}>
+      <form id="booking-form" action={onSubmit}>
         <Fieldset>
-          <Legend>
-            {isExistingBooking ? "Edit Appointment" : "Book Appointment"}
-          </Legend>
+          <Legend>{isEditing ? "Edit Appointment" : "Book Appointment"}</Legend>
           <Text>
-            Please fill out the form below to{" "}
-            {isExistingBooking ? "update" : "book"} your appointment for{" "}
-            {startTime}:00.
+            Please fill out the form below to {isEditing ? "update" : "book"}{" "}
+            your appointment for {formatHour(bookingData.startTime)}
           </Text>
           <FieldGroup>
             <div className="sm:gap-4 grid grid-cols-1 sm:grid-cols-2">
               <Field>
                 <Label>First name</Label>
-                <Input name="first_name" defaultValue={firstName} required />
+                <Input
+                  name="firstName"
+                  defaultValue={bookingData.firstName || ""}
+                  required
+                />
               </Field>
               <Field>
                 <Label>Last name</Label>
-                <Input name="last_name" defaultValue={lastName} required />
+                <Input
+                  name="lastName"
+                  defaultValue={bookingData.lastName || ""}
+                  required
+                />
               </Field>
             </div>
             <Field>
               <Label>Email</Label>
-              <Input name="email" type="email" defaultValue={email} required />
+              <Input
+                name="email"
+                type="email"
+                defaultValue={bookingData.email || ""}
+                required
+              />
             </Field>
             <Field>
               <Label>Phone</Label>
-              <Input name="phone" type="tel" defaultValue={phone} required />
+              <Input
+                name="phone"
+                type="tel"
+                defaultValue={bookingData.phone || ""}
+                required
+              />
             </Field>
             <FieldGroup>
               <Field>
                 <Label>Service</Label>
-                <Select name="service" defaultValue={service} required>
+                <Select
+                  name="service"
+                  defaultValue={bookingData.service || ""}
+                  required
+                >
                   <option value="">Select a service</option>
                   <option value="Massage Therapy">Massage Therapy</option>
                   <option value="Acupuncture">Acupuncture</option>
@@ -79,11 +87,10 @@ export default function BookingModal({
               <Field>
                 <Label>Duration</Label>
                 <Select
-                  name="duration"
-                  defaultValue={durationMinutes.toString()}
+                  name="durationMinutes"
+                  defaultValue={(bookingData.durationMinutes || 60).toString()}
                   required
                 >
-                  <option value="">Select duration</option>
                   <option value="30">30 mins</option>
                   <option value="45">45 mins</option>
                   <option value="60">1 hour</option>
@@ -96,7 +103,7 @@ export default function BookingModal({
                   name="notes"
                   rows={3}
                   placeholder="Any special requests or notes..."
-                  defaultValue={notes}
+                  defaultValue={bookingData.notes || ""}
                 />
               </Field>
             </FieldGroup>
@@ -108,7 +115,7 @@ export default function BookingModal({
           Cancel
         </Button>
         <Button type="submit" form="booking-form">
-          {isExistingBooking ? "Update Appointment" : "Book Appointment"}
+          {isEditing ? "Update Appointment" : "Book Appointment"}
         </Button>
       </DialogActions>
     </Dialog>

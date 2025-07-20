@@ -2,28 +2,56 @@ import BookingModal from "./BookingModal";
 import DateNavigator from "./DateNavigator";
 import TimeGrid from "./TimeGrid";
 import { useBookings } from "../hooks/useBookings";
+import { useBookingModal } from "../hooks/useBookingModal";
 import { useDateNavigation } from "../hooks/useDateNavigation";
+import type { ModalPayload } from "../types";
 
 export default function Calendar() {
   const { currentDate, goToNextDay, goToPreviousDay, goToToday } =
     useDateNavigation();
-
+  const { bookings, saveBooking, getBooking } = useBookings(); // Fixed: use saveBooking
   const {
-    bookings,
+    modalState,
+    openNewBooking,
+    openEditBooking,
     closeModal,
-    handleFormAction,
-    isOpen,
-    openModal,
-    bookingData,
-  } = useBookings(currentDate);
+    createBookingFromForm,
+    isEditing,
+  } = useBookingModal();
+
+  const handleSaveBooking = (formData: FormData) => {
+    const booking = createBookingFromForm(formData);
+    saveBooking(booking); // Fixed: use saveBooking for both new and edit
+    closeModal();
+  };
+
+  // Create openModal function that matches the expected signature
+  const openModal = (payload: ModalPayload) => {
+    if (payload.type === "edit") {
+      const booking = getBooking(payload.bookingId);
+      if (booking) openEditBooking(booking);
+    } else {
+      openNewBooking(
+        payload.time,
+        payload.therapistId,
+        currentDate.toISOString().split("T")[0]
+      );
+    }
+  };
+
+  // Filter bookings for current date
+  const todaysBookings = bookings.filter(
+    (b) => b.date === currentDate.toISOString().split("T")[0]
+  );
 
   return (
     <>
       <BookingModal
-        formAction={handleFormAction}
-        isOpen={isOpen}
+        isOpen={modalState.isOpen}
         onClose={closeModal}
-        bookingData={bookingData} // ✅ make sure BookingModal accepts this prop
+        onSubmit={handleSaveBooking}
+        bookingData={modalState.bookingData}
+        isEditing={isEditing}
       />
 
       <section className="p-4">
@@ -37,9 +65,9 @@ export default function Calendar() {
         />
 
         <TimeGrid
-          bookings={bookings}
+          bookings={todaysBookings}
           currentDate={currentDate}
-          openModal={openModal}
+          openModal={openModal} // Pass the openModal function
         />
       </section>
     </>

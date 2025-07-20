@@ -30,16 +30,24 @@ export type ModalPayload =
   | { type: "new"; time: number; therapistId: string }
   | { type: "edit"; bookingId: string };
 
+
+// In types.ts
 export type TimeGridProps = {
   bookings: Booking[];
   currentDate: Date;
-  openModal: (payload: ModalPayload) => void;
-};
+  openModal: (payload: ModalPayload) => void; // Add this
+}
 
-export type BookingModalProps = {
-  isOpen: boolean;
+
+export type BookingModalProps = BookingModalData & {
   onClose: () => void;
-  formAction: (formData: FormData) => void;
-  bookingData: Booking | null;
-};
+  onSubmit: (formData: FormData) => void;
+  isEditing: boolean;
+}
 
+
+export type BookingModalData = {
+    isOpen: boolean;
+    editingId?: string;
+    bookingData: Partial<Booking>;
+}

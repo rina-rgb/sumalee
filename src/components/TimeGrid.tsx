@@ -12,7 +12,7 @@ const therapists: Therapist[] = [
 export default function TimeGrid({
   bookings,
   currentDate,
-  openModal,
+  openModal, // Use openModal instead of onNewBooking/onEditBooking
 }: TimeGridProps) {
   const { slots, bookingsForDay } = useCalendarData(bookings, currentDate);
 
@@ -34,7 +34,7 @@ export default function TimeGrid({
           therapist={t}
           slots={slots}
           bookings={bookingsForDay.filter((b) => b.therapistId === t.id)}
-          openModal={openModal}
+          openModal={openModal} // Pass openModal through
         />
       ))}
     </div>

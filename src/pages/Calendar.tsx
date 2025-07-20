@@ -1,3 +1,4 @@
+import AppointmentBlock from "../components/AppointmentBlock";
 import BookingModal from "../components/BookingModal";
 import DateNavigator from "../components/Date";
 import TimeSlot from "../components/TimeSlot";
@@ -13,23 +14,13 @@ const Calendar = () => {
     bookings,
     isOpen,
     selectedTimeSlot,
+    selectedBooking,
     openModal,
     closeModal,
     handleFormAction,
   } = useBookings(currentDate);
 
-  const { slots, getBookingsAtSlot } = useCalendarData(bookings, currentDate);
-
-  const currentDateStr = currentDate.toISOString().split("T")[0];
-
-  const timeSlotsUI = slots.map((hour) => (
-    <TimeSlot
-      key={hour}
-      time={hour}
-      bookings={getBookingsAtSlot(hour)}
-      onClick={openModal}
-    />
-  ));
+  const { slots } = useCalendarData(bookings, currentDate);
 
   return (
     <>
@@ -37,12 +28,8 @@ const Calendar = () => {
         isOpen={isOpen}
         onClose={closeModal}
         selectedBooking={
-          selectedTimeSlot
-            ? bookings.find(
-                (b) =>
-                  b.startTime === selectedTimeSlot && b.date === currentDateStr
-              ) || { startTime: selectedTimeSlot }
-            : null
+          selectedBooking ||
+          (selectedTimeSlot !== null ? { startTime: selectedTimeSlot } : null)
         }
         formAction={handleFormAction}
       />
@@ -68,7 +55,42 @@ const Calendar = () => {
           </div>
 
           {/* Time Grid Rendered */}
-          {timeSlotsUI}
+          <div className="grid grid-cols-[minmax(80px,1fr)_8fr]">
+            {/* Left: Time Column */}
+            <div className="border-r">
+              {slots.map((slot) => (
+                <TimeSlot
+                  key={`time-${slot}`} // <-- unique key
+                  time={slot}
+                  onClick={openModal}
+                  showTimeOnly
+                />
+              ))}
+            </div>
+
+            {/* Right: Appointment Grid */}
+            <div
+              className="relative"
+              style={{ height: `${slots.length * 24}px` }}
+            >
+              {slots.map((slot) => (
+                <TimeSlot
+                  key={`slot-${slot}`} // <-- different key
+                  time={slot}
+                  onClick={openModal}
+                  showSlotOnly
+                />
+              ))}
+
+              {bookings.map((b) => (
+                <AppointmentBlock
+                  key={b.email + b.startTime}
+                  booking={b}
+                  onClick={openModal}
+                />
+              ))}
+            </div>
+          </div>
         </div>
       </section>
     </>

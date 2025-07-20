@@ -28,8 +28,16 @@ export default function BookingModal({
 }: BookingModalProps) {
   // Check if this is an existing booking (has firstName) or a new booking (only has startTime)
   const isExistingBooking = selectedBooking && "firstName" in selectedBooking;
-  const { firstName, lastName, email, phone, service, startTime, notes } =
-    selectedBooking && "firstName" in selectedBooking ? selectedBooking : {};
+  const {
+    firstName,
+    lastName,
+    email,
+    phone,
+    service,
+    startTime,
+    durationMinutes,
+    notes,
+  } = selectedBooking && "firstName" in selectedBooking ? selectedBooking : {};
 
   return (
     <Dialog open={isOpen} onClose={onClose}>
@@ -93,7 +101,11 @@ export default function BookingModal({
               </Field>
               <Field>
                 <Label>Duration</Label>
-                <Select name="duration" defaultValue="" required>
+                <Select
+                  name="duration"
+                  defaultValue={durationMinutes?.toString() || ""}
+                  required
+                >
                   <option value="">Select duration</option>
                   <option value="30">30 mins</option>
                   <option value="45">45 mins</option>

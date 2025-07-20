@@ -5,21 +5,28 @@ export function useBookings(currentDate: Date) {
   const [bookings, setBookings] = useState<Booking[]>([]);
   const [isOpen, setIsOpen] = useState(false);
   const [selectedTimeSlot, setSelectedTimeSlot] = useState<number | null>(null);
+  const [selectedBooking, setSelectedBooking] = useState<Booking | null>(null); // NEW
 
-  const openModal = (time: number) => {
-    setSelectedTimeSlot(time);
+  const openModal = (payload: number | Booking) => {
+    if (typeof payload === "number") {
+      setSelectedTimeSlot(payload);
+      setSelectedBooking(null);
+    } else {
+      setSelectedTimeSlot(payload.startTime);
+      setSelectedBooking(payload);
+    }
     setIsOpen(true);
   };
 
   const closeModal = () => {
-    setSelectedTimeSlot(null);
     setIsOpen(false);
+    setSelectedTimeSlot(null);
+    setSelectedBooking(null);
   };
 
   const handleFormAction = (formData: FormData) => {
     if (selectedTimeSlot === null) return;
 
-    //get info from current input fields
     const newBooking: Booking = {
       firstName: formData.get("first_name") as string,
       lastName: formData.get("last_name") as string,
@@ -30,14 +37,11 @@ export function useBookings(currentDate: Date) {
       durationMinutes: Number(formData.get("duration")),
       notes: formData.get("notes") as string,
       date: currentDate.toISOString().split("T")[0],
-
     };
 
     setBookings((prev) => {
       const updated = prev.filter(
-        (b) =>
-          !(b.startTime === selectedTimeSlot &&
-            b.date === newBooking.date)
+        (b) => !(b.startTime === selectedTimeSlot && b.date === newBooking.date)
       );
       return [...updated, newBooking];
     });
@@ -49,6 +53,7 @@ export function useBookings(currentDate: Date) {
     bookings,
     isOpen,
     selectedTimeSlot,
+    selectedBooking, // expose this
     openModal,
     closeModal,
     handleFormAction,

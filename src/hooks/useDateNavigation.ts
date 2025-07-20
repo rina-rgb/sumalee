@@ -4,14 +4,25 @@ export function useDateNavigation(initialDate = new Date()) {
   const [currentDate, setCurrentDate] = useState(initialDate);
 
   const goToNextDay = () => {
-    setCurrentDate(prev => new Date(prev.setDate(prev.getDate() + 1)));
+    const next = new Date(currentDate);
+    next.setDate(next.getDate() + 1);
+    setCurrentDate(next);
   };
 
   const goToPreviousDay = () => {
-    setCurrentDate(prev => new Date(prev.setDate(prev.getDate() - 1)));
+    const prev = new Date(currentDate);
+    prev.setDate(prev.getDate() - 1);
+    setCurrentDate(prev);
   };
 
-  const goToToday = () => setCurrentDate(new Date());
+  const goToToday = () => {
+    setCurrentDate(new Date());
+  };
 
-  return { currentDate, goToNextDay, goToPreviousDay, goToToday };
+  return {
+    currentDate,
+    goToNextDay,
+    goToPreviousDay,
+    goToToday,
+  };
 }

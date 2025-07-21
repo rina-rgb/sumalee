@@ -63,14 +63,14 @@ export default function Calendar() {
           <div>
             <button
               onClick={goToPreviousDay}
-              className="hover:bg-gray-200 px-2 py-1 rounded"
+              className="hover:bg-gray-200 px-2 py-1 rounded cursor-pointer"
             >
               ←
             </button>
-            <Button onClick={goToToday}>Today</Button>
+            <Button onClick={goToToday} className="cursor-pointer">Today</Button>
             <button
               onClick={goToNextDay}
-              className="hover:bg-gray-200 px-2 py-1 rounded"
+              className="hover:bg-gray-200 px-2 py-1 rounded cursor-pointer"
             >
               →
             </button>

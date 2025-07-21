@@ -1,0 +1,197 @@
+[
+  {
+    "id": "2964bc2e-fd1d-4166-91e2-6702f4a6395b",
+    "name": "Damon Schinner-Mueller PhD",
+    "avatarUrl": "https://cdn.jsdelivr.net/gh/faker-js/assets-person-portrait/female/512/90.jpg",
+    "color": "rgb(30, 202, 103)",
+    "specialties": [
+      "pt",
+      "chiropractic"
+    ],
+    "timeZone": "America/Los_Angeles",
+    "availability": [
+      {
+        "weekday": 0,
+        "startHour": 9,
+        "endHour": 12
+      },
+      {
+        "weekday": 0,
+        "startHour": 13,
+        "endHour": 17
+      },
+      {
+        "weekday": 1,
+        "startHour": 9,
+        "endHour": 12
+      },
+      {
+        "weekday": 1,
+        "startHour": 13,
+        "endHour": 17
+      },
+      {
+        "weekday": 2,
+        "startHour": 9,
+        "endHour": 12
+      },
+      {
+        "weekday": 2,
+        "startHour": 13,
+        "endHour": 17
+      },
+      {
+        "weekday": 3,
+        "startHour": 9,
+        "endHour": 12
+      },
+      {
+        "weekday": 3,
+        "startHour": 13,
+        "endHour": 17
+      },
+      {
+        "weekday": 4,
+        "startHour": 9,
+        "endHour": 12
+      },
+      {
+        "weekday": 4,
+        "startHour": 13,
+        "endHour": 17
+      }
+    ],
+    "createdAt": "2025-07-16T06:52:43.544Z",
+    "updatedAt": "2025-07-18T16:34:58.473Z"
+  },
+  {
+    "id": "1a23582b-dd90-46c6-abec-056cfbd5273a",
+    "name": "Gayle Hudson",
+    "avatarUrl": "https://cdn.jsdelivr.net/gh/faker-js/assets-person-portrait/male/512/19.jpg",
+    "color": "rgb(52, 142, 116)",
+    "specialties": [
+      "acupuncture",
+      "pt"
+    ],
+    "timeZone": "America/Los_Angeles",
+    "availability": [
+      {
+        "weekday": 0,
+        "startHour": 9,
+        "endHour": 12
+      },
+      {
+        "weekday": 0,
+        "startHour": 13,
+        "endHour": 17
+      },
+      {
+        "weekday": 1,
+        "startHour": 9,
+        "endHour": 12
+      },
+      {
+        "weekday": 1,
+        "startHour": 13,
+        "endHour": 17
+      },
+      {
+        "weekday": 2,
+        "startHour": 9,
+        "endHour": 12
+      },
+      {
+        "weekday": 2,
+        "startHour": 13,
+        "endHour": 17
+      },
+      {
+        "weekday": 3,
+        "startHour": 9,
+        "endHour": 12
+      },
+      {
+        "weekday": 3,
+        "startHour": 13,
+        "endHour": 17
+      },
+      {
+        "weekday": 4,
+        "startHour": 9,
+        "endHour": 12
+      },
+      {
+        "weekday": 4,
+        "startHour": 13,
+        "endHour": 17
+      }
+    ],
+    "createdAt": "2025-07-14T02:39:52.368Z",
+    "updatedAt": "2025-07-18T07:53:35.933Z"
+  },
+  {
+    "id": "dbb30bc8-e66c-47bd-a055-56af87e3be5a",
+    "name": "Ms. Candice Howell",
+    "avatarUrl": "https://avatars.githubusercontent.com/u/79993355",
+    "color": "rgb(151, 80, 36)",
+    "specialties": [
+      "chiropractic",
+      "acupuncture"
+    ],
+    "timeZone": "America/Los_Angeles",
+    "availability": [
+      {
+        "weekday": 0,
+        "startHour": 9,
+        "endHour": 12
+      },
+      {
+        "weekday": 0,
+        "startHour": 13,
+        "endHour": 17
+      },
+      {
+        "weekday": 1,
+        "startHour": 9,
+        "endHour": 12
+      },
+      {
+        "weekday": 1,
+        "startHour": 13,
+        "endHour": 17
+      },
+      {
+        "weekday": 2,
+        "startHour": 9,
+        "endHour": 12
+      },
+      {
+        "weekday": 2,
+        "startHour": 13,
+        "endHour": 17
+      },
+      {
+        "weekday": 3,
+        "startHour": 9,
+        "endHour": 12
+      },
+      {
+        "weekday": 3,
+        "startHour": 13,
+        "endHour": 17
+      },
+      {
+        "weekday": 4,
+        "startHour": 9,
+        "endHour": 12
+      },
+      {
+        "weekday": 4,
+        "startHour": 13,
+        "endHour": 17
+      }
+    ],
+    "createdAt": "2025-07-13T22:34:59.912Z",
+    "updatedAt": "2025-07-20T05:36:59.911Z"
+  }
+]

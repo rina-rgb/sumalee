@@ -1,0 +1,92 @@
+[
+  {
+    "id": "296b7acb-7041-4c1f-9dd0-5dbd682e74c9",
+    "firstName": "Linnea",
+    "lastName": "Crona",
+    "email": "Judah92@gmail.com",
+    "phone": "213-781-7825",
+    "avatarUrl": "https://avatars.githubusercontent.com/u/81632716",
+    "createdAt": "2025-07-15T12:23:27.071Z"
+  },
+  {
+    "id": "7b8e3298-fb2a-4e39-bfdc-5c2eb2e68482",
+    "firstName": "Eryn",
+    "lastName": "Effertz",
+    "email": "Charles91@gmail.com",
+    "phone": "677.739.8867 x82895",
+    "avatarUrl": "https://cdn.jsdelivr.net/gh/faker-js/assets-person-portrait/male/512/93.jpg",
+    "createdAt": "2025-06-27T04:11:21.891Z"
+  },
+  {
+    "id": "36f99b5c-7266-4faa-810e-dcd7afe20189",
+    "firstName": "Guadalupe",
+    "lastName": "Bednar",
+    "email": "Florence.Pfannerstill@yahoo.com",
+    "phone": "454-655-7532 x0351",
+    "avatarUrl": "https://cdn.jsdelivr.net/gh/faker-js/assets-person-portrait/male/512/91.jpg",
+    "createdAt": "2025-07-03T10:46:20.304Z"
+  },
+  {
+    "id": "177630a9-b860-408c-a2d3-8d32dab3dec0",
+    "firstName": "Elliot",
+    "lastName": "Stokes",
+    "email": "Santa.Dickens@yahoo.com",
+    "phone": "(967) 533-0452 x16765",
+    "avatarUrl": "https://avatars.githubusercontent.com/u/34737108",
+    "createdAt": "2025-06-22T11:16:12.652Z"
+  },
+  {
+    "id": "ec8936ce-fd72-47fa-9bed-730ce9ba3f0a",
+    "firstName": "Willa",
+    "lastName": "Heaney",
+    "email": "Griffin.Mohr64@yahoo.com",
+    "phone": "483-385-8810",
+    "avatarUrl": "https://avatars.githubusercontent.com/u/50293453",
+    "createdAt": "2025-07-21T05:44:27.852Z"
+  },
+  {
+    "id": "a9dd7748-f83e-46f7-8f17-417f5f6d4dff",
+    "firstName": "Zechariah",
+    "lastName": "Schmeler",
+    "email": "Andres.Lind@hotmail.com",
+    "phone": "(501) 497-9176",
+    "avatarUrl": "https://cdn.jsdelivr.net/gh/faker-js/assets-person-portrait/female/512/96.jpg",
+    "createdAt": "2025-06-24T07:03:03.274Z"
+  },
+  {
+    "id": "4a5f0ee0-4be0-4002-8a00-7f5dbc199dca",
+    "firstName": "Ted",
+    "lastName": "Mann",
+    "email": "Marc_Paucek@hotmail.com",
+    "phone": "911.498.2963",
+    "avatarUrl": "https://avatars.githubusercontent.com/u/85693164",
+    "createdAt": "2025-07-20T04:58:24.240Z"
+  },
+  {
+    "id": "09955332-ffe6-4a6c-9e82-5fc202503a30",
+    "firstName": "Geovanny",
+    "lastName": "Green",
+    "email": "Augustine35@yahoo.com",
+    "phone": "746-548-8425 x7618",
+    "avatarUrl": "https://cdn.jsdelivr.net/gh/faker-js/assets-person-portrait/female/512/29.jpg",
+    "createdAt": "2025-07-18T04:28:26.631Z"
+  },
+  {
+    "id": "3e5877f4-c609-4813-8375-fb35f1c32664",
+    "firstName": "Alex",
+    "lastName": "Kuhn",
+    "email": "Efren_Simonis97@yahoo.com",
+    "phone": "(307) 670-9208 x066",
+    "avatarUrl": "https://avatars.githubusercontent.com/u/78257265",
+    "createdAt": "2025-07-04T22:16:48.897Z"
+  },
+  {
+    "id": "3ace255d-35ec-471f-be21-ec5d2daf6d97",
+    "firstName": "Nasir",
+    "lastName": "Feest",
+    "email": "Johanna.Ward83@yahoo.com",
+    "phone": "585.957.7082 x263",
+    "avatarUrl": "https://avatars.githubusercontent.com/u/66908164",
+    "createdAt": "2025-07-12T04:04:53.149Z"
+  }
+]

@@ -1,20 +1,10 @@
-export function getEndTime(startTime: number, durationMinutes: number): number {
-  return startTime + durationMinutes / 60;
-}
+import { TIME_GRID_ROW_HEIGHT, TIME_GRID_BASE_HOUR, TIME_GRID_INTERVAL_MINUTES } from "./constants";
 export function formatHour(hour: string | number | undefined): string {
   if (hour === undefined) return "0";
   const h = Math.floor(Number(hour));
   const m = (Number(hour) % 1) * 60;
   return `${h.toString().padStart(2, "0")}:${m === 0 ? "00" : m}`;
 }
-
-export const formatTimeDisplay = (time: string) => {
-  if (!time) return "";
-  const [hours, minutes] = time.split(":").map(Number);
-  const ampm = hours >= 12 ? "PM" : "AM";
-  const displayHours = hours % 12 || 12;
-  return `${displayHours}:${minutes.toString().padStart(2, '0')} ${ampm}`;
-};
 
 export const calculateEndTime = (start: string, durationMinutes: number): string => {
   if (!start) return "";
@@ -40,7 +30,7 @@ export function getAppointmentBlockStyle(
     intervalMinutes?: number;
   } = {}
 ) {
-  const { rowHeight = 24, baseHour = 8, intervalMinutes = 15 } = options;
+  const { rowHeight = TIME_GRID_ROW_HEIGHT, baseHour = TIME_GRID_BASE_HOUR, intervalMinutes = TIME_GRID_INTERVAL_MINUTES } = options;
 
   if (!start || !end) {
     return { top: "0px", height: "0px" };

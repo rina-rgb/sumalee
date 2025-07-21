@@ -1,8 +1,9 @@
 import { useMemo } from "react";
+import { TIME_GRID_BASE_HOUR, TIME_GRID_INTERVAL_MINUTES, TIME_GRID_END_HOUR } from "../utils/constants";
 import type { Booking } from "../types";
 
-const START_HOUR = 8;
-const END_HOUR = 19;
+const START_HOUR = TIME_GRID_BASE_HOUR;
+const END_HOUR = TIME_GRID_END_HOUR;
 
 /**
  * A custom hook to encapsulate the logic for building the calendar grid.
@@ -16,8 +17,8 @@ export function useCalendarGrid() {
   const slots = useMemo(
     () =>
       Array.from(
-        { length: (END_HOUR - START_HOUR) * 4 },
-        (_, i) => START_HOUR + i * 0.25
+        { length: (END_HOUR - START_HOUR) * (60 / TIME_GRID_INTERVAL_MINUTES) },
+        (_, i) => START_HOUR + (i * TIME_GRID_INTERVAL_MINUTES) / 60
       ),
     []
   );

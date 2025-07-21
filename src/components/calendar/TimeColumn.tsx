@@ -3,11 +3,14 @@ import { formatHour } from "../../utils/time";
 export default function TimeColumn({ slots }: { slots: number[] }) {
   return (
     <div className="border-r">
-      {slots.map((time) => {
+      {slots.map((time, rowIdx) => {
         const isFullHour = Number.isInteger(time);
         return (
           <div
             key={time}
+            role="rowheader"
+            aria-rowindex={rowIdx + 2}
+            aria-colindex={1}
             className={`h-6 m-0 text-xs ${
               isFullHour ? "border-t border-gray-200" : ""
             }`}

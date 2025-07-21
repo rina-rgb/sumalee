@@ -4,8 +4,9 @@ import { useBookings } from "../../hooks/useBookings";
 import { useDateNavigation } from "../../hooks/useDateNavigation";
 
 import { useBookingModal } from "../../hooks/useBookingModal";
+
 import { useTestTherapists } from "../../hooks/useTestTherapists";
-import { Button } from "../../tw-components/button";
+import { DateNavigation } from "./DateNavigation";
 
 export default function Calendar() {
   const { currentDate, goToNextDay, goToPreviousDay, goToToday } =
@@ -20,28 +21,40 @@ export default function Calendar() {
     addBooking,
     updateBooking,
     isLoading: bLoading,
+    isValidating: bValidating,
+    isError: bError,
+    revalidate: revalidateBookings,
   } = useBookings(currentDate);
 
-  const { modalState, openModal, closeModal, handleChange, handleSubmit } =
-    useBookingModal(currentDate, addBooking, updateBooking);
+  const {
+    modalState,
+    openModal,
+    closeModal,
+    handleChange,
+    handleSubmit,
+    submitError,
+  } = useBookingModal(currentDate, addBooking, updateBooking);
 
   if (tLoading || bLoading) return <p>Loading…</p>;
   if (tError) return <p>Error loading therapists.</p>;
-
-  const formatDate = (date: Date): string => {
-    return date.toLocaleDateString("en-US", {
-      weekday: "short",
-      month: "long",
-      day: "numeric",
-    });
-  };
-
-  const toIsoDate = (date: Date): string => {
-    return date.toISOString().split("T")[0]; // "2025-07-19"
-  };
+  if (bError)
+    return (
+      <p>
+        Error loading bookings.
+        <button
+          type="button"
+          onClick={() => revalidateBookings()}
+          disabled={bValidating}
+          className="ml-2 px-2 py-1 bg-blue-500 text-white rounded disabled:opacity-50"
+          aria-label="Retry loading bookings"
+        >
+          {bValidating ? 'Retrying...' : 'Retry'}
+        </button>
+      </p>
+    );
 
   return (
-    <>
+    <section className="p-4" aria-label="Calendar">
       <BookingModal
         isOpen={modalState.isOpen}
         onClose={closeModal}
@@ -50,39 +63,19 @@ export default function Calendar() {
         appointmentFields={modalState.appointmentFields}
         onChange={handleChange}
         onSubmit={handleSubmit}
+        errorMessage={submitError ?? undefined}
       />
-
-      <section className="p-4">
-        <h2 className="mb-4 font-bold text-xl">Appointments</h2>
-        <div className="flex justify-between gap-4 text-lg">
-          <div>
-            <time dateTime={toIsoDate(currentDate)} className="font-medium">
-              {formatDate(currentDate)}
-            </time>
-          </div>
-          <div>
-            <button
-              onClick={goToPreviousDay}
-              className="hover:bg-gray-200 px-2 py-1 rounded cursor-pointer"
-            >
-              ←
-            </button>
-            <Button onClick={goToToday} className="cursor-pointer">Today</Button>
-            <button
-              onClick={goToNextDay}
-              className="hover:bg-gray-200 px-2 py-1 rounded cursor-pointer"
-            >
-              →
-            </button>
-          </div>
-        </div>
-        <TimeGrid
-          therapists={therapists}
-          bookings={bookings}
-          openModal={openModal}
-          currentDate={currentDate}
-        />
-      </section>
-    </>
+      <DateNavigation
+        currentDate={currentDate}
+        onPrev={goToPreviousDay}
+        onToday={goToToday}
+        onNext={goToNextDay}
+      />
+      <TimeGrid
+        therapists={therapists}
+        bookings={bookings}
+        openModal={openModal}
+      />
+    </section>
   );
 }

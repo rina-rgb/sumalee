@@ -1,6 +1,7 @@
 // useBookingModal.ts
 import { useState, useCallback } from "react";
 import { calculateEndTime, formatHour } from "../utils/time";
+import { toIsoDate } from "../utils/date";
 import type { Booking, ModalPayload } from "../types";
 import type { AppointmentFormFields, CustomerFormFields } from "../types/forms";
 
@@ -41,8 +42,8 @@ export function useBookingModal(
   addBooking: (booking: Booking) => Promise<void>,
   updateBooking: (booking: Booking) => Promise<void>
 ) {
-  const [modalState, setModalState] =
-    useState<BookingModalState>(initialModalState);
+  const [modalState, setModalState] = useState<BookingModalState>(initialModalState);
+  const [submitError, setSubmitError] = useState<string | null>(null);
 
   const openModal = useCallback((payload: ModalPayload) => {
     if (payload.type === "edit") {
@@ -83,7 +84,7 @@ export function useBookingModal(
           notes: "",
           start,
           end,
-          date: currentDate.toISOString().split("T")[0],
+          date: toIsoDate(currentDate),
           therapistId: payload.therapistId,
         },
       });
@@ -103,14 +104,28 @@ export function useBookingModal(
       const { name, value } = e.target;
       const [group, key] = name.split(".");
 
-      if (group === "customer" || group === "appointment") {
+      if (group === "customer") {
         setModalState((prev) => ({
           ...prev,
-          [`${group}Fields`]: {
-            ...prev[`${group}Fields`],
+          customerFields: {
+            ...prev.customerFields,
             [key]: value,
           },
         }));
+      } else if (group === "appointment") {
+        setModalState((prev) => {
+          const updated = {
+            ...prev.appointmentFields,
+            [key]: key === "durationMinutes" ? Number(value) : value,
+          };
+          if (key === "start" || key === "durationMinutes") {
+            updated.end = calculateEndTime(
+              updated.start,
+              Number(updated.durationMinutes)
+            );
+          }
+          return { ...prev, appointmentFields: updated };
+        });
       }
     },
     []
@@ -131,12 +146,17 @@ export function useBookingModal(
           Number(appointmentFields.durationMinutes)
         ),
       };
-      if (isEditing) {
-        await updateBooking(bookingData);
-      } else {
-        await addBooking(bookingData);
+      try {
+        if (isEditing) {
+          await updateBooking(bookingData);
+        } else {
+          await addBooking(bookingData);
+        }
+        setSubmitError(null);
+        closeModal();
+      } catch (err) {
+        setSubmitError(err instanceof Error ? err.message : 'Failed to save booking');
       }
-      closeModal();
     },
     [modalState, addBooking, updateBooking, closeModal]
   );
@@ -147,5 +167,6 @@ export function useBookingModal(
     closeModal,
     handleChange,
     handleSubmit,
+    submitError,
   };
 }

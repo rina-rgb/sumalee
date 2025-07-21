@@ -11,6 +11,7 @@ export function useBookings(currentDate: Date) {
     data: bookings,
     error,
     isLoading,
+    isValidating,
     mutate,
   } = useSWR<Booking[]>(
     ["/bookings.json", dateStr],
@@ -32,23 +33,35 @@ export function useBookings(currentDate: Date) {
    * you might need more advanced cache mutation strategies.
    */
   const addBooking = async (newBooking: Booking) => {
-    // Optimistically add to the current day's cache.
-    await mutate([...(bookings ?? []), newBooking], false);
+    try {
+      // Optimistically add to the current day's cache.
+      await mutate([...(bookings ?? []), newBooking], false);
+    } catch (error) {
+      console.error("Failed to add booking:", error);
+    }
   };
 
   const updateBooking = async (edited: Booking) => {
-    // Optimistically update the current day's cache.
-    await mutate(
-      (bookings ?? []).map((b) => (b.id === edited.id ? edited : b)),
-      false
-    );
+    try {
+      // Optimistically update the current day's cache.
+      await mutate(
+        (bookings ?? []).map((b) => (b.id === edited.id ? edited : b)),
+        false
+      );
+    } catch (error) {
+      console.error("Failed to update booking:", error);
+    }
   };
   /**
    * Remove a booking by ID (optimistically).
    */
   const deleteBooking = async (id: string) => {
-    const updated = (bookings ?? []).filter((b) => b.id !== id);
-    await mutate(updated, false);
+    try {
+      const updated = (bookings ?? []).filter((b) => b.id !== id);
+      await mutate(updated, false);
+    } catch (error) {
+      console.error("Failed to delete booking:", error);
+    }
   };
 
   /**
@@ -63,6 +76,8 @@ export function useBookings(currentDate: Date) {
     deleteBooking,
     getBooking,
     isLoading,
+    isValidating,
     isError: Boolean(error),
+    revalidate: mutate,
   };
 }

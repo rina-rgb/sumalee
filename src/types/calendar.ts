@@ -13,6 +13,5 @@ export type ModalPayload =
 export type TimeGridProps = {
   therapists: Therapist[];
   bookings: Booking[];
-  currentDate: Date;
   openModal: (payload: ModalPayload) => void;
 }; 

@@ -1,11 +1,11 @@
-
 import React, { useMemo } from "react";
 import TimeColumn from "./TimeColumn";
-import type { TimeGridProps } from "../../types";
+
 import { TIME_GRID_ROW_HEIGHT } from "../../utils/constants";
 import { useCalendarGrid } from "../../hooks/useCalendarGrid";
 import { getAppointmentBlockStyle } from "../../utils/time";
 import { formatHour } from "../../utils/time";
+import type { TimeGridProps } from "../../types";
 
 export default function TimeGrid({
   therapists,
@@ -30,9 +30,16 @@ export default function TimeGrid({
       }}
     >
       {/* Header row */}
-      <div role="columnheader" aria-colindex={1} className="font-bold">Time</div>
+      <div role="columnheader" aria-colindex={1} className="font-bold">
+        Time
+      </div>
       {therapists.map((t, colIdx) => (
-        <div key={t.id} role="columnheader" aria-colindex={colIdx + 2} className="font-bold text-center">
+        <div
+          key={t.id}
+          role="columnheader"
+          aria-colindex={colIdx + 2}
+          className="font-bold text-center"
+        >
           {t.name}
         </div>
       ))}
@@ -75,7 +82,10 @@ export default function TimeGrid({
 
             {therapistBookings.map((booking) => {
               const customer = booking.customer;
-              const style = getAppointmentBlockStyle(booking.start, booking.end);
+              const style = getAppointmentBlockStyle(
+                booking.start,
+                booking.end
+              );
               return (
                 <button
                   key={booking.id}

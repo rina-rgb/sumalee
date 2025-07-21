@@ -2,8 +2,9 @@
 import { useState, useCallback } from "react";
 import { calculateEndTime, formatHour } from "../utils/time";
 import { toIsoDate } from "../utils/date";
-import type { Booking, ModalPayload } from "../types";
+import type { ModalPayload } from "../types";
 import type { AppointmentFormFields, CustomerFormFields } from "../types/forms";
+import type { Booking } from "../types";
 
 // Define the shape of the modal's state
 interface BookingModalState {

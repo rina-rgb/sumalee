@@ -1,5 +1,21 @@
+@import url('https://fonts.googleapis.com/css2?family=Prata&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Inter&display=swap');
 @import "tailwindcss";
-/* 
+
+/* Apply Prata globally */
+
+@layer base {
+  html {
+    font-family: 'Inter', serif;
+  }
+}
+
+@layer utilities {
+  .font-prata {
+    font-family: 'Prata', serif;
+  }
+}
+  /* 
 :root {
   font-family: system-ui, Avenir, Helvetica, Arial, sans-serif;
   line-height: 1.5;

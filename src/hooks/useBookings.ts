@@ -11,7 +11,6 @@ export function useBookings(currentDate: Date) {
     data: bookings,
     error,
     isLoading,
-    isValidating,
     mutate,
   } = useSWR<Booking[]>(
     ["/bookings.json", dateStr],
@@ -52,32 +51,12 @@ export function useBookings(currentDate: Date) {
       console.error("Failed to update booking:", error);
     }
   };
-  /**
-   * Remove a booking by ID (optimistically).
-   */
-  const deleteBooking = async (id: string) => {
-    try {
-      const updated = (bookings ?? []).filter((b) => b.id !== id);
-      await mutate(updated, false);
-    } catch (error) {
-      console.error("Failed to delete booking:", error);
-    }
-  };
-
-  /**
-   * Find one booking in today’s list.
-   */
-  const getBooking = (id: string) => bookings?.find((b) => b.id === id);
 
   return {
     bookings: bookings ?? [],
     addBooking,
     updateBooking,
-    deleteBooking,
-    getBooking,
     isLoading,
-    isValidating,
     isError: Boolean(error),
-    revalidate: mutate,
   };
 }

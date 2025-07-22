@@ -11,19 +11,20 @@ import { DateNavigation } from "./DateNavigation";
 export default function Calendar() {
   const { currentDate, goToNextDay, goToPreviousDay, goToToday } =
     useDateNavigation();
+
   const {
     therapists,
     isLoading: tLoading,
     isError: tError,
   } = useTestTherapists();
+  
   const {
     bookings,
     addBooking,
     updateBooking,
     isLoading: bLoading,
-    isValidating: bValidating,
     isError: bError,
-    revalidate: revalidateBookings,
+    
   } = useBookings(currentDate);
 
   const {
@@ -35,23 +36,11 @@ export default function Calendar() {
     submitError,
   } = useBookingModal(currentDate, addBooking, updateBooking);
 
-  if (tLoading || bLoading) return <p>Loading…</p>;
-  if (tError) return <p>Error loading therapists.</p>;
-  if (bError)
-    return (
-      <p>
-        Error loading bookings.
-        <button
-          type="button"
-          onClick={() => revalidateBookings()}
-          disabled={bValidating}
-          className="ml-2 px-2 py-1 bg-blue-500 text-white rounded disabled:opacity-50"
-          aria-label="Retry loading bookings"
-        >
-          {bValidating ? 'Retrying...' : 'Retry'}
-        </button>
-      </p>
-    );
+  const isLoading = tLoading || bLoading;
+  const isError   = tError   || bError;
+
+  if (isLoading) return <p>Loading…</p>;
+  if (isError)   return <p>Error loading calendar.</p>;
 
   return (
     <section className="p-4" aria-label="Calendar">

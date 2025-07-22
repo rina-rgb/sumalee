@@ -21,33 +21,29 @@ export const calculateEndTime = (start: string, durationMinutes: number): string
   return `${endH}:${endM}`;
 };
 
+
+
+// helper: “08:15” → 495
+const toMin = (t: string) => {
+  const [h, m] = t.split(":").map(Number);
+  return h * 60 + m;
+};
+
 export function getAppointmentBlockStyle(
   start: string,
   end: string,
-  options: {
-    rowHeight?: number;
-    baseHour?: number;
-    intervalMinutes?: number;
+  {
+    rowHeight = TIME_GRID_ROW_HEIGHT,
+    baseHour = TIME_GRID_BASE_HOUR,
+    intervalMinutes = TIME_GRID_INTERVAL_MINUTES,
   } = {}
 ) {
-  const { rowHeight = TIME_GRID_ROW_HEIGHT, baseHour = TIME_GRID_BASE_HOUR, intervalMinutes = TIME_GRID_INTERVAL_MINUTES } = options;
+  if (!start || !end) return { top: "0px", height: "0px" };
 
-  if (!start || !end) {
-    return { top: "0px", height: "0px" };
-  }
+  const s = toMin(start),
+        e = toMin(end),
+        top = ((s - baseHour * 60) / intervalMinutes) * rowHeight,
+        height = ((e - s) / intervalMinutes) * rowHeight;
 
-  const [h, m] = start.split(":").map(Number);
-  const totalStartMinutes = h * 60 + m;
-  const offsetMins = totalStartMinutes - baseHour * 60;
-  const top = (offsetMins / intervalMinutes) * rowHeight;
-
-  const [eh, em] = end.split(":").map(Number);
-  const totalEndMinutes = eh * 60 + em;
-  const durationMins = totalEndMinutes - totalStartMinutes;
-  const height = (durationMins / intervalMinutes) * rowHeight;
-
-  return {
-    top: `${top}px`,
-    height: `${height}px`,
-  };
+  return { top: `${top}px`, height: `${height}px` };
 }

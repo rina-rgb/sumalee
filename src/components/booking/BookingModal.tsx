@@ -1,6 +1,7 @@
 import { Button } from "../../tw-components/button";
 import { Dialog, DialogTitle, DialogDescription, DialogActions } from "../../tw-components/dialog";
 import {
+  ErrorMessage,
   Field,
   FieldGroup,
   Fieldset,
@@ -54,11 +55,7 @@ export default function BookingModal({
         </Text>
       </DialogDescription>
       <form id="booking-form" onSubmit={onSubmit}>
-        {errorMessage && (
-          <div role="alert" className="mb-4 text-red-600">
-            {errorMessage}
-          </div>
-        )}
+        {errorMessage && (<ErrorMessage>{errorMessage}</ErrorMessage>)}
         <Fieldset>
           <Legend>Customer Information</Legend>
           <FieldGroup>

@@ -4,11 +4,11 @@
 
 /* Apply Prata globally */
 
-@layer base {
+/* @layer base {
   html {
     font-family: 'Inter', serif;
   }
-}
+} */
 
 @layer utilities {
   .font-prata {

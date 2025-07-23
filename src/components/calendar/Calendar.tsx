@@ -7,6 +7,7 @@ import { useBookingModal } from "../../hooks/useBookingModal";
 
 import { useTestTherapists } from "../../hooks/useTestTherapists";
 import { DateNavigation } from "./DateNavigation";
+import LayoutAnimation from "../ui/ToggleSwitch";
 
 export default function Calendar() {
   const { currentDate, goToNextDay, goToPreviousDay, goToToday } =
@@ -17,14 +18,13 @@ export default function Calendar() {
     isLoading: tLoading,
     isError: tError,
   } = useTestTherapists();
-  
+
   const {
     bookings,
     addBooking,
     updateBooking,
     isLoading: bLoading,
     isError: bError,
-    
   } = useBookings(currentDate);
 
   const {
@@ -37,10 +37,10 @@ export default function Calendar() {
   } = useBookingModal(currentDate, addBooking, updateBooking);
 
   const isLoading = tLoading || bLoading;
-  const isError   = tError   || bError;
+  const isError = tError || bError;
 
   if (isLoading) return <p>Loading…</p>;
-  if (isError)   return <p>Error loading calendar.</p>;
+  if (isError) return <p>Error loading calendar.</p>;
 
   return (
     <section className="p-4" aria-label="Calendar">
@@ -54,6 +54,7 @@ export default function Calendar() {
         onSubmit={handleSubmit}
         errorMessage={submitError ?? undefined}
       />
+      <LayoutAnimation />
       <DateNavigation
         currentDate={currentDate}
         onPrev={goToPreviousDay}

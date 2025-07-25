@@ -52,11 +52,11 @@ export type TimeInterval = {
 	startHour: number;
 	endHour: number;
 };
-export interface BookingInterval {
+export interface BookingIntervalWithTherapist {
 	therapistId: string;
 	start: string; // "HH:mm"
 	end: string; // "HH:mm"
-	durationMinutes: number;
+	durationMinutes?: number;
 }
 export type SlotClassification = {
 	strict: string[]; // ideal slots: abut one side of a free interval

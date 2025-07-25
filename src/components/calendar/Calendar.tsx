@@ -8,64 +8,72 @@ import { useBookingModal } from "../../hooks/useBookingModal";
 import { useTestTherapists } from "../../hooks/useTestTherapists";
 import { DateNavigation } from "./DateNavigation";
 import LayoutAnimation from "../ui/ToggleSwitch";
+import SlotsSuggestionsSidebar from "./SlotSuggestionsSidebar";
 
 export default function Calendar() {
-  const { currentDate, goToNextDay, goToPreviousDay, goToToday } =
-    useDateNavigation();
+	const { currentDate, goToNextDay, goToPreviousDay, goToToday } =
+		useDateNavigation();
 
-  const {
-    therapists,
-    isLoading: tLoading,
-    isError: tError,
-  } = useTestTherapists();
+	const {
+		therapists,
+		isLoading: tLoading,
+		isError: tError,
+	} = useTestTherapists();
 
-  const {
-    bookings,
-    addBooking,
-    updateBooking,
-    isLoading: bLoading,
-    isError: bError,
-  } = useBookings(currentDate);
+	const {
+		bookings,
+		addBooking,
+		updateBooking,
+		isLoading: bLoading,
+		isError: bError,
+	} = useBookings(currentDate);
 
-  const {
-    modalState,
-    openModal,
-    closeModal,
-    handleChange,
-    handleSubmit,
-    submitError,
-  } = useBookingModal(currentDate, addBooking, updateBooking);
+	const {
+		modalState,
+		openModal,
+		closeModal,
+		handleChange,
+		handleSubmit,
+		submitError,
+	} = useBookingModal(currentDate, addBooking, updateBooking);
 
-  const isLoading = tLoading || bLoading;
-  const isError = tError || bError;
+	const isLoading = tLoading || bLoading;
+	const isError = tError || bError;
 
-  if (isLoading) return <p>Loading…</p>;
-  if (isError) return <p>Error loading calendar.</p>;
+	if (isLoading) return <p>Loading…</p>;
+	if (isError) return <p>Error loading calendar.</p>;
 
-  return (
-    <section className="p-4" aria-label="Calendar">
-      <BookingModal
-        isOpen={modalState.isOpen}
-        onClose={closeModal}
-        isEditing={modalState.isEditing}
-        customerFields={modalState.customerFields}
-        appointmentFields={modalState.appointmentFields}
-        onChange={handleChange}
-        onSubmit={handleSubmit}
-        errorMessage={submitError ?? undefined}
-      />
-      <LayoutAnimation />
-      <DateNavigation
-        currentDate={currentDate}
-        onPrev={goToPreviousDay}
-        onToday={goToToday}
-        onNext={goToNextDay}
-      />
-      <TimeGrid
-        therapists={therapists}
-        bookings={bookings}
-        openModal={openModal}
-      />
-    </section>
-  );
+	return (
+		<section className="p-4" aria-label="Calendar">
+			<BookingModal
+				isOpen={modalState.isOpen}
+				onClose={closeModal}
+				isEditing={modalState.isEditing}
+				customerFields={modalState.customerFields}
+				appointmentFields={modalState.appointmentFields}
+				onChange={handleChange}
+				onSubmit={handleSubmit}
+				errorMessage={submitError ?? undefined}
+			/>
+			<LayoutAnimation />
+			<DateNavigation
+				currentDate={currentDate}
+				onPrev={goToPreviousDay}
+				onToday={goToToday}
+				onNext={goToNextDay}
+			/>
+			<div className="grid grid-cols-5 gap-4">
+				<div className="col-span-4">
+					<TimeGrid
+						therapists={therapists}
+						bookings={bookings}
+						openModal={openModal}
+					/>
+				</div>
+				<div className="col-span-1">
+					<SlotsSuggestionsSidebar bookings={bookings} duration={60} />
+				</div>
+			</div>
+		</section>
+	);
 }

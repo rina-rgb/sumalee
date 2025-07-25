@@ -1,5 +1,7 @@
 // slotFinder.ts
 
+import { BookingIntervalWithTherapist } from "../types";
+
 // --- Types ---------------------------------------------------------
 
 /** Raw booking interval, with HH:mm strings */
@@ -46,8 +48,8 @@ export interface SlotClassification {
  * @param dayEndStr        Workday end   ("HH:mm"), default "18:00".
  */
 export function findBestScheduleSlots(
-	durationMinutes: number,
-	bookings: BookingInterval[],
+	durationMinutes: number = 60,
+	bookings: BookingIntervalWithTherapist[],
 	minGapMinutes: number = 60,
 	dayStartStr: string = "08:00",
 	dayEndStr: string = "18:00"
@@ -69,16 +71,20 @@ export function findBestScheduleSlots(
 
 /** Convert HH:mm strings to minute‐intervals and sort */
 function bookingsToIntervals(
-	bookings: BookingInterval[]
-): Array<{ start: number; end: number }> {
+	bookings: BookingIntervalWithTherapist[]
+): Array<{ start: number; end: number; durationMinutes: number }> {
 	return bookings
-		.map((b) => ({ start: hhmmToMinutes(b.start), end: hhmmToMinutes(b.end) }))
+		.map((b) => ({
+			start: hhmmToMinutes(b.start),
+			end: hhmmToMinutes(b.end),
+			durationMinutes: Number(b.durationMinutes),
+		}))
 		.sort((a, b) => a.start - b.start);
 }
 
 /** Compute free [start,end] ranges (in minutes) between sorted intervals */
 function getFreeIntervals(
-	intervals: Array<{ start: number; end: number }>,
+	intervals: Array<{ start: number; end: number; durationMinutes: number }>,
 	dayStart: number,
 	dayEnd: number
 ): Array<[number, number]> {
@@ -126,17 +132,19 @@ function classifySlot(c: Candidate, minGapMinutes: number): ClassifiedSlot {
 	const gapAfter = freeEnd - slotEnd;
 	const fillsFromStart = slotStart === freeStart;
 	const fillsToEnd = slotEnd === freeEnd;
-	const minutesPart = slotStart % 60;
-	const aligned = minutesPart === 0 || minutesPart === 30;
+
+	const alignedBefore = gapBefore % 60 === 0 || gapBefore % 90 === 0;
+	const alignedAfter = gapAfter % 60 === 0 || gapAfter % 90 === 0;
 
 	// STRICT: abuts free interval boundary
-	if (fillsFromStart || fillsToEnd) {
+	if (fillsFromStart || fillsToEnd || alignedBefore || alignedAfter) {
 		return { kind: "strict", slot: minutesToHhmm(slotStart) };
 	}
 
+	//TODO refactor
 	// SOFT: one‐side fill, aligned, and leaves an unfillable gap (< minGap)
 	if (
-		aligned &&
+		(alignedBefore || alignedAfter) &&
 		((gapBefore < minGapMinutes && fillsFromStart) ||
 			(gapAfter < minGapMinutes && fillsToEnd))
 	) {
@@ -144,12 +152,7 @@ function classifySlot(c: Candidate, minGapMinutes: number): ClassifiedSlot {
 	}
 
 	// BAD: leaves too much bookable time (i.e. ≥ minGap) or two small gaps
-	let reason = `Leaves unusable gaps: ${gapBefore} min before, ${gapAfter} min after.`;
-	if (gapBefore >= minGapMinutes)
-		reason = `Leaves bookable gap of ${gapBefore} min before (not allowed).`;
-	else if (gapAfter >= minGapMinutes)
-		reason = `Leaves bookable gap of ${gapAfter} min after (not allowed).`;
-
+	const reason = `Leaves unusable gaps: ${gapBefore} min before, ${gapAfter} min after.`;
 	return { kind: "bad", slot: minutesToHhmm(slotStart), reason };
 }
 
@@ -186,12 +189,65 @@ function minutesToHhmm(minutes: number): string {
 // 	{ start: "12:00", end: "14:00" },
 // 	{ start: "15:30", end: "16:15" },
 // ];
+// const bookings = [
+// 	{ start: "08:00", end: "9:30" },
+// 	{ start: "10:00", end: "11:00" },
+// ];
 
 // const duration = 90;
 // const minGap = 60;
 
 // const slots = findBestScheduleSlots(duration, bookings, minGap);
 // console.log("STRICT:", slots.strict);
+
 // console.log("SOFT:", slots.soft);
 // console.log("BAD:", slots.bad);
 // console.log("BAD REASONS:", slots.badReasons);
+
+const bookings = [
+	{ therapistId: "A", start: "08:00", end: "09:30", durationMinutes: 90 },
+	{ therapistId: "A", start: "10:00", end: "11:00", durationMinutes: 60 },
+	{ therapistId: "B", start: "08:00", end: "09:00", durationMinutes: 90 },
+	{ therapistId: "B", start: "10:00", end: "11:00", durationMinutes: 60 },
+];
+
+function groupBookingsByTherapist(bookings: BookingIntervalWithTherapist[]) {
+	return Object.values(
+		bookings.reduce(
+			(
+				acc: Record<
+					string,
+					{
+						therapistId: string;
+						bookings: BookingIntervalWithTherapist[];
+					}
+				>,
+				{ therapistId, ...rest }
+			) => {
+				if (!acc[therapistId]) acc[therapistId] = { therapistId, bookings: [] };
+				acc[therapistId].bookings.push(rest);
+				return acc;
+			},
+			{}
+		)
+	);
+}
+
+export const findBestScheduleSlotsForAll = (
+	bookings: BookingIntervalWithTherapist[],
+	duration: number = 60
+) => {
+	const groupedBookings = groupBookingsByTherapist(bookings);
+	const totalSlots = [];
+	for (const therapist of groupedBookings) {
+		const slotsForEachTherapist = findBestScheduleSlots(
+			duration,
+			therapist.bookings
+		);
+		totalSlots.push({ therapist: therapist, bestSlots: slotsForEachTherapist });
+	}
+
+	return totalSlots;
+};
+
+findBestScheduleSlotsForAll(bookings);

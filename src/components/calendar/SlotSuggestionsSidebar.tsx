@@ -4,6 +4,12 @@ import { useTestTherapists } from "../../hooks/useTestTherapists";
 import { findBestScheduleSlots } from "../../lib/slotfinder";
 import type { Booking, Therapist } from "../../types/domain";
 
+// Import premium Tailwind UI components
+import { Badge } from "../../tw-components/badge";
+import { Heading, Subheading } from "../../tw-components/heading";
+import { Text, Strong, Code } from "../../tw-components/text";
+import { Avatar } from "../../tw-components/avatar";
+
 interface SwapSidebarProps {
 	bookings: Booking[];
 	duration: number;
@@ -26,34 +32,67 @@ export default function SlotsSuggestionsSidebar({
 
 	// Helper: Calculate end time from start time and duration
 	const calculateEndTime = (startTime: string, durationMinutes: number) => {
-		const startMinutes = parseInt(startTime.split(":")[0]) * 60 + parseInt(startTime.split(":")[1]);
+		const startMinutes =
+			parseInt(startTime.split(":")[0]) * 60 +
+			parseInt(startTime.split(":")[1]);
 		const endMinutes = startMinutes + durationMinutes;
 		const endHours = Math.floor(endMinutes / 60);
 		const endMins = endMinutes % 60;
 		return formatTime(`${endHours}:${String(endMins).padStart(2, "0")}`);
 	};
 
-	// Helper: Render a list of time slots
-	const renderSlotList = (slots: string[], color: string, label: string) => {
+	// Helper: Render a list of time slots using premium components
+	const renderSlotList = (
+		slots: string[],
+		variant: "optimal" | "acceptable" | "available",
+		label: string
+	) => {
 		if (slots.length === 0) return null;
-		
+
+		// Define badge colors for different slot types
+		const badgeColors = {
+			optimal: "emerald" as const,
+			acceptable: "amber" as const,
+			available: "blue" as const,
+		};
+
+		const icons = {
+			optimal: "✓",
+			acceptable: "~",
+			available: "●",
+		};
+
 		return (
-			<div>
-				<h4 className={`text-sm font-medium ${color} mb-1`}>{label}:</h4>
-				<ul className="space-y-1">
+			<div className="space-y-3">
+				{/* Section Header */}
+				<div className="flex items-center gap-2">
+					<span className="text-sm">{icons[variant]}</span>
+					<Subheading level={4} className="!text-sm !font-medium">
+						{label} Slots
+					</Subheading>
+					<Badge color={badgeColors[variant]}>{slots.length}</Badge>
+				</div>
+
+				{/* Time Slots */}
+				<div className="grid gap-2">
 					{slots.map((slot, slotIdx) => {
 						const startTime = formatTime(slot);
 						const endTime = calculateEndTime(slot, duration);
 						return (
-							<li key={slotIdx} className="text-sm">
-								<span className={`font-medium ${color.replace('text-', 'text-').replace('-700', '-600')}`}>
-									{startTime} - {endTime}
-								</span>
-								<span className="text-xs text-gray-500 ml-2">({label.toLowerCase()})</span>
-							</li>
+							<div
+								key={slotIdx}
+								className="group relative rounded-lg border border-zinc-950/10 bg-white px-3 py-2.5 shadow-sm transition-all hover:bg-zinc-50 hover:shadow-md cursor-pointer dark:border-white/10 dark:bg-zinc-900 dark:hover:bg-zinc-800"
+							>
+								<div className="flex items-center justify-between">
+									<Code className="!bg-transparent !border-0 !px-0 font-mono text-sm font-semibold">
+										{startTime} – {endTime}
+									</Code>
+									<Text className="!text-xs">{duration}min</Text>
+								</div>
+							</div>
 						);
 					})}
-				</ul>
+				</div>
 			</div>
 		);
 	};
@@ -61,61 +100,168 @@ export default function SlotsSuggestionsSidebar({
 	// Helper: Render therapist with no bookings (fully available)
 	const renderAvailableTherapist = (therapist: Therapist, idx: number) => {
 		const emptyScheduleSlots = findBestScheduleSlots(duration, []);
-		console.log(`Empty schedule slots for ${therapist.name}:`, emptyScheduleSlots);
+		console.log(
+			`Empty schedule slots for ${therapist.name}:`,
+			emptyScheduleSlots
+		);
+
+		// Get therapist initials for avatar
+		const getInitials = (name: string) => {
+			return name
+				.split(" ")
+				.map((n) => n.charAt(0))
+				.join("")
+				.slice(0, 2)
+				.toUpperCase();
+		};
 
 		return (
-			<div key={idx} className="border-l-2 border-green-500 pl-3">
-				<h3 className="font-semibold text-lg mb-2">{therapist.name}</h3>
-				<div className="space-y-2">
-					{renderSlotList(emptyScheduleSlots.strict, "text-green-700", "Available")}
+			<div
+				key={idx}
+				className="rounded-xl border border-zinc-950/10 bg-white p-6 shadow-sm transition-shadow hover:shadow-lg dark:border-white/10 dark:bg-zinc-900"
+			>
+				{/* Therapist Header */}
+				<div className="flex items-center gap-3 mb-5">
+					<Avatar
+						src={therapist.avatarUrl}
+						initials={getInitials(therapist.name)}
+						alt={therapist.name}
+						className="size-10"
+					/>
+					<div className="flex-1">
+						<Subheading level={3} className="!text-base">
+							{therapist.name}
+						</Subheading>
+						<Text className="!text-xs">Fully Available Today</Text>
+					</div>
+					<Badge color="emerald">Open</Badge>
+				</div>
+
+				{/* Available Slots */}
+				<div className="space-y-4">
+					{renderSlotList(
+						emptyScheduleSlots.strict,
+						"available",
+						"Recommended"
+					)}
 				</div>
 			</div>
 		);
 	};
 
 	// Helper: Render therapist with existing bookings
-	const renderBusyTherapist = (therapist: Therapist, therapistData: any, idx: number) => {
+	const renderBusyTherapist = (
+		therapist: Therapist,
+		therapistData: any,
+		idx: number
+	) => {
 		const { bestSlots } = therapistData;
-		const hasAnySlots = bestSlots.strict.length > 0 || bestSlots.soft.length > 0;
+		const hasAnySlots =
+			bestSlots.strict.length > 0 || bestSlots.soft.length > 0;
+		const totalSlots = bestSlots.strict.length + bestSlots.soft.length;
 
 		if (!hasAnySlots) return null;
 
+		// Get therapist initials for avatar
+		const getInitials = (name: string) => {
+			return name
+				.split(" ")
+				.map((n) => n.charAt(0))
+				.join("")
+				.slice(0, 2)
+				.toUpperCase();
+		};
+
 		return (
-			<div key={idx} className="border-l-2 border-blue-500 pl-3">
-				<h3 className="font-semibold text-lg mb-2">{therapist.name}</h3>
-				<div className="space-y-2">
-					{renderSlotList(bestSlots.strict, "text-green-700", "Optimal")}
-					{renderSlotList(bestSlots.soft, "text-yellow-700", "Acceptable")}
+			<div
+				key={idx}
+				className="rounded-xl border border-zinc-950/10 bg-white p-6 shadow-sm transition-shadow hover:shadow-lg dark:border-white/10 dark:bg-zinc-900"
+			>
+				{/* Therapist Header */}
+				<div className="flex items-center gap-3 mb-5">
+					<Avatar
+						src={therapist.avatarUrl}
+						initials={getInitials(therapist.name)}
+						alt={therapist.name}
+						className="size-10"
+					/>
+					<div className="flex-1">
+						<Subheading level={3} className="!text-base">
+							{therapist.name}
+						</Subheading>
+						<Text className="!text-xs">{totalSlots} slots available</Text>
+					</div>
+					<Badge color="zinc">Busy</Badge>
+				</div>
+
+				{/* Available Slots */}
+				<div className="space-y-6">
+					{renderSlotList(bestSlots.strict, "optimal", "Optimal")}
+					{renderSlotList(bestSlots.soft, "acceptable", "Acceptable")}
 				</div>
 			</div>
 		);
 	};
 
-	// Main render - much cleaner now!
+	// Main render - premium design with Tailwind UI components!
 	return (
-		<aside aria-label="Swap Options Sidebar">
-			<h2 className="text-sm mb-8">Available Slots by Therapist</h2>
-			{therapists.length === 0 ? (
-				<p className="text-sm align-middle text-gray-500">Loading therapists...</p>
-			) : (
-				<div className="space-y-4">
-					{therapists.map((therapist, idx) => {
-						// Find if this therapist has existing bookings
-						const therapistData = proposals.find(
-							(p) => p.therapist.therapistId === therapist.id
-						);
-
-						// Render based on whether they have bookings or not
-						if (!therapistData) {
-							// No bookings = fully available
-							return renderAvailableTherapist(therapist, idx);
-						} else {
-							// Has bookings = show available slots between appointments
-							return renderBusyTherapist(therapist, therapistData, idx);
-						}
-					})}
+		<aside
+			className="h-full overflow-y-auto border-l border-zinc-950/10 bg-white dark:border-white/10 dark:bg-zinc-900"
+			aria-label="Available Slots Sidebar"
+		>
+			{/* Premium Header */}
+			{/* <div className="font-mono sticky top-0 z-10 border-b border-zinc-950/10 bg-white px-6 py-5 dark:border-white/10 dark:bg-zinc-900">
+				<div className="flex items-center gap-3">
+					<div className="size-2 rounded-full bg-gradient-to-r from-blue-500 to-purple-600"></div>
+					<Heading level={5}>Available Slots</Heading>
 				</div>
-			)}
+				<Text className="mt-1">Find the perfect appointment time</Text>
+			</div> */}
+
+			{/* Content */}
+			<div className="p-6">
+				{therapists.length === 0 ? (
+					<div className="flex flex-col items-center justify-center py-12 text-center">
+						<div className="mb-4 flex size-12 items-center justify-center rounded-full bg-zinc-100 dark:bg-zinc-800">
+							<svg
+								className="size-6 text-zinc-400"
+								fill="none"
+								stroke="currentColor"
+								viewBox="0 0 24 24"
+							>
+								<path
+									strokeLinecap="round"
+									strokeLinejoin="round"
+									strokeWidth={2}
+									d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"
+								/>
+							</svg>
+						</div>
+						<Strong>Loading therapists...</Strong>
+						<Text className="mt-1">
+							Please wait while we fetch available slots
+						</Text>
+					</div>
+				) : (
+					<div className="space-y-6">
+						{therapists.map((therapist, idx) => {
+							// Find if this therapist has existing bookings
+							const therapistData = proposals.find(
+								(p) => p.therapist.therapistId === therapist.id
+							);
+
+							// Render based on whether they have bookings or not
+							if (!therapistData) {
+								// No bookings = fully available
+								return renderAvailableTherapist(therapist, idx);
+							} else {
+								// Has bookings = show available slots between appointments
+								return renderBusyTherapist(therapist, therapistData, idx);
+							}
+						})}
+					</div>
+				)}
+			</div>
 		</aside>
 	);
 }

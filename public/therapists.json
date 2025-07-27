@@ -1,141 +1,11 @@
 [
   {
-    "id": "2964bc2e-fd1d-4166-91e2-6702f4a6395b",
-    "name": "Damon Schinner-Mueller PhD",
-    "avatarUrl": "https://cdn.jsdelivr.net/gh/faker-js/assets-person-portrait/female/512/90.jpg",
-    "color": "rgb(30, 202, 103)",
+    "id": "c9131c7c-0dfb-43e1-acf0-ee8bf1d76d75",
+    "name": "Nick Little Jr.",
+    "avatarUrl": "https://cdn.jsdelivr.net/gh/faker-js/assets-person-portrait/female/512/54.jpg",
+    "color": "rgb(14, 50, 25)",
     "specialties": [
-      "pt",
-      "chiropractic"
-    ],
-    "timeZone": "America/Los_Angeles",
-    "availability": [
-      {
-        "weekday": 0,
-        "startHour": 9,
-        "endHour": 12
-      },
-      {
-        "weekday": 0,
-        "startHour": 13,
-        "endHour": 17
-      },
-      {
-        "weekday": 1,
-        "startHour": 9,
-        "endHour": 12
-      },
-      {
-        "weekday": 1,
-        "startHour": 13,
-        "endHour": 17
-      },
-      {
-        "weekday": 2,
-        "startHour": 9,
-        "endHour": 12
-      },
-      {
-        "weekday": 2,
-        "startHour": 13,
-        "endHour": 17
-      },
-      {
-        "weekday": 3,
-        "startHour": 9,
-        "endHour": 12
-      },
-      {
-        "weekday": 3,
-        "startHour": 13,
-        "endHour": 17
-      },
-      {
-        "weekday": 4,
-        "startHour": 9,
-        "endHour": 12
-      },
-      {
-        "weekday": 4,
-        "startHour": 13,
-        "endHour": 17
-      }
-    ],
-    "createdAt": "2025-07-16T06:52:43.544Z",
-    "updatedAt": "2025-07-18T16:34:58.473Z"
-  },
-  {
-    "id": "1a23582b-dd90-46c6-abec-056cfbd5273a",
-    "name": "Gayle Hudson",
-    "avatarUrl": "https://cdn.jsdelivr.net/gh/faker-js/assets-person-portrait/male/512/19.jpg",
-    "color": "rgb(52, 142, 116)",
-    "specialties": [
-      "acupuncture",
-      "pt"
-    ],
-    "timeZone": "America/Los_Angeles",
-    "availability": [
-      {
-        "weekday": 0,
-        "startHour": 9,
-        "endHour": 12
-      },
-      {
-        "weekday": 0,
-        "startHour": 13,
-        "endHour": 17
-      },
-      {
-        "weekday": 1,
-        "startHour": 9,
-        "endHour": 12
-      },
-      {
-        "weekday": 1,
-        "startHour": 13,
-        "endHour": 17
-      },
-      {
-        "weekday": 2,
-        "startHour": 9,
-        "endHour": 12
-      },
-      {
-        "weekday": 2,
-        "startHour": 13,
-        "endHour": 17
-      },
-      {
-        "weekday": 3,
-        "startHour": 9,
-        "endHour": 12
-      },
-      {
-        "weekday": 3,
-        "startHour": 13,
-        "endHour": 17
-      },
-      {
-        "weekday": 4,
-        "startHour": 9,
-        "endHour": 12
-      },
-      {
-        "weekday": 4,
-        "startHour": 13,
-        "endHour": 17
-      }
-    ],
-    "createdAt": "2025-07-14T02:39:52.368Z",
-    "updatedAt": "2025-07-18T07:53:35.933Z"
-  },
-  {
-    "id": "dbb30bc8-e66c-47bd-a055-56af87e3be5a",
-    "name": "Ms. Candice Howell",
-    "avatarUrl": "https://avatars.githubusercontent.com/u/79993355",
-    "color": "rgb(151, 80, 36)",
-    "specialties": [
-      "chiropractic",
+      "massage",
       "acupuncture"
     ],
     "timeZone": "America/Los_Angeles",
@@ -191,7 +61,137 @@
         "endHour": 17
       }
     ],
-    "createdAt": "2025-07-13T22:34:59.912Z",
-    "updatedAt": "2025-07-20T05:36:59.911Z"
+    "createdAt": "2025-07-13T01:13:51.270Z",
+    "updatedAt": "2025-07-23T20:20:02.993Z"
+  },
+  {
+    "id": "61185bc3-f818-41e9-913b-8f0f31c0c143",
+    "name": "Claire Watsica",
+    "avatarUrl": "https://avatars.githubusercontent.com/u/11374911",
+    "color": "rgb(186, 249, 180)",
+    "specialties": [
+      "pt",
+      "massage"
+    ],
+    "timeZone": "America/Los_Angeles",
+    "availability": [
+      {
+        "weekday": 0,
+        "startHour": 9,
+        "endHour": 12
+      },
+      {
+        "weekday": 0,
+        "startHour": 13,
+        "endHour": 17
+      },
+      {
+        "weekday": 1,
+        "startHour": 9,
+        "endHour": 12
+      },
+      {
+        "weekday": 1,
+        "startHour": 13,
+        "endHour": 17
+      },
+      {
+        "weekday": 2,
+        "startHour": 9,
+        "endHour": 12
+      },
+      {
+        "weekday": 2,
+        "startHour": 13,
+        "endHour": 17
+      },
+      {
+        "weekday": 3,
+        "startHour": 9,
+        "endHour": 12
+      },
+      {
+        "weekday": 3,
+        "startHour": 13,
+        "endHour": 17
+      },
+      {
+        "weekday": 4,
+        "startHour": 9,
+        "endHour": 12
+      },
+      {
+        "weekday": 4,
+        "startHour": 13,
+        "endHour": 17
+      }
+    ],
+    "createdAt": "2025-07-14T14:54:59.960Z",
+    "updatedAt": "2025-07-23T19:28:54.566Z"
+  },
+  {
+    "id": "805855d9-f4d4-44b5-af7f-56992161029d",
+    "name": "Tara Shanahan",
+    "avatarUrl": "https://avatars.githubusercontent.com/u/31636604",
+    "color": "rgb(74, 188, 54)",
+    "specialties": [
+      "chiropractic",
+      "massage"
+    ],
+    "timeZone": "America/Los_Angeles",
+    "availability": [
+      {
+        "weekday": 0,
+        "startHour": 9,
+        "endHour": 12
+      },
+      {
+        "weekday": 0,
+        "startHour": 13,
+        "endHour": 17
+      },
+      {
+        "weekday": 1,
+        "startHour": 9,
+        "endHour": 12
+      },
+      {
+        "weekday": 1,
+        "startHour": 13,
+        "endHour": 17
+      },
+      {
+        "weekday": 2,
+        "startHour": 9,
+        "endHour": 12
+      },
+      {
+        "weekday": 2,
+        "startHour": 13,
+        "endHour": 17
+      },
+      {
+        "weekday": 3,
+        "startHour": 9,
+        "endHour": 12
+      },
+      {
+        "weekday": 3,
+        "startHour": 13,
+        "endHour": 17
+      },
+      {
+        "weekday": 4,
+        "startHour": 9,
+        "endHour": 12
+      },
+      {
+        "weekday": 4,
+        "startHour": 13,
+        "endHour": 17
+      }
+    ],
+    "createdAt": "2025-07-20T13:50:32.624Z",
+    "updatedAt": "2025-07-25T08:22:05.828Z"
   }
 ]

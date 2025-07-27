@@ -3,6 +3,13 @@ import useFindBestScheduleSlots from "../../hooks/useFindBestScheduleSlots";
 import { useTestTherapists } from "../../hooks/useTestTherapists";
 import { findBestScheduleSlots } from "../../lib/slotfinder";
 import type { Booking, Therapist } from "../../types/domain";
+import { generateIntervalSlots } from "../../utils/grid";
+import { 
+	TIME_GRID_BASE_HOUR, 
+	TIME_GRID_END_HOUR, 
+	TIME_GRID_INTERVAL_MINUTES, 
+	TIME_GRID_ROW_HEIGHT 
+} from "../../utils/constants";
 
 // Import premium Tailwind UI components
 import { Badge } from "../../tw-components/badge";
@@ -21,6 +28,15 @@ export default function SlotsSuggestionsSidebar({
 }: SwapSidebarProps) {
 	const proposals = useFindBestScheduleSlots(bookings, duration);
 	const { therapists } = useTestTherapists();
+	
+	// Calculate the exact height to match the schedule
+	const intervalSlots = generateIntervalSlots(
+		TIME_GRID_BASE_HOUR,
+		TIME_GRID_END_HOUR,
+		TIME_GRID_INTERVAL_MINUTES
+	);
+	const headerHeight = 72; // Approximate header height (py-6 = 24px top + 24px bottom + content)
+	const scheduleHeight = intervalSlots.length * TIME_GRID_ROW_HEIGHT + headerHeight;
 
 	console.log(proposals);
 
@@ -206,7 +222,8 @@ export default function SlotsSuggestionsSidebar({
 	// Main render - premium design with Tailwind UI components!
 	return (
 		<aside
-			className="h-full overflow-y-auto border-l border-zinc-950/10 bg-white dark:border-white/10 dark:bg-zinc-900"
+			className="overflow-y-auto border-l border-zinc-950/10 bg-white dark:border-white/10 dark:bg-zinc-900"
+			style={{ height: `${scheduleHeight}px` }}
 			aria-label="Available Slots Sidebar"
 		>
 			{/* Premium Header */}

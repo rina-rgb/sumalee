@@ -40,9 +40,12 @@ export default function TimeGrid({
 	);
 
 	const handleDragEnd = ({ active, over }) => {
-		if (!over) return;
+		if (!over) {
+			return;
+		}
 		// over.id === `${therapistId}|${time}`
 		const [newTherapistId, newStart] = over.id.split("|");
+
 		moveBooking(active.id, newTherapistId, newStart);
 	};
 	const bookingsByTherapist = groupByTherapist(bookings);
@@ -53,7 +56,11 @@ export default function TimeGrid({
 	}) => {
 		return (
 			<>
-				<div role="columnheader" aria-colindex={1} className="font-bold py-6">
+				<div
+					role="columnheader"
+					aria-colindex={1}
+					className="font-bold py-6 border-r border-gray-100"
+				>
 					Time
 				</div>
 				{therapists.map((t, colIdx) => (
@@ -61,7 +68,7 @@ export default function TimeGrid({
 						key={t.id}
 						role="columnheader"
 						aria-colindex={colIdx + 2}
-						className="font-bold text-center py-6"
+						className="font-bold text-center py-6 border-r border-gray-100"
 					>
 						{t.name}
 					</div>

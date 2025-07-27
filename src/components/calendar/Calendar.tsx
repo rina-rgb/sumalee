@@ -69,7 +69,7 @@ export default function Calendar() {
 				/>
 				<LayoutAnimation />
 				<h2 className="mb-4 font-bold text-xl">Appointments</h2>
-				<div className="border border-gray-300 rounded-lg overflow-hidden bg-gray-100">
+				<div className="border border-gray-300 rounded-lg overflow-hidden bg-gray-50">
 					<DateNavigation
 						currentDate={currentDate}
 						onPrev={goToPreviousDay}
@@ -82,6 +82,7 @@ export default function Calendar() {
 								therapists={therapists}
 								bookings={bookings}
 								openModal={openModal}
+								date={currentDate}
 							/>
 						</div>
 						<div className="col-span-1">

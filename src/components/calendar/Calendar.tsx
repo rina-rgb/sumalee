@@ -68,22 +68,25 @@ export default function Calendar() {
 					errorMessage={submitError ?? undefined}
 				/>
 				<LayoutAnimation />
-				<DateNavigation
-					currentDate={currentDate}
-					onPrev={goToPreviousDay}
-					onToday={goToToday}
-					onNext={goToNextDay}
-				/>
-				<div className="grid grid-cols-5 gap-4">
-					<div className="col-span-4">
-						<TimeGrid
-							therapists={therapists}
-							bookings={bookings}
-							openModal={openModal}
-						/>
-					</div>
-					<div className="col-span-1">
-						<SlotsSuggestionsSidebar bookings={bookings} duration={60} />
+				<h2 className="mb-4 font-bold text-xl">Appointments</h2>
+				<div className="border border-gray-300 rounded-lg overflow-hidden bg-gray-100">
+					<DateNavigation
+						currentDate={currentDate}
+						onPrev={goToPreviousDay}
+						onToday={goToToday}
+						onNext={goToNextDay}
+					/>
+					<div className="grid grid-cols-5 gap-4 bg-white px-6">
+						<div className="col-span-4">
+							<TimeGrid
+								therapists={therapists}
+								bookings={bookings}
+								openModal={openModal}
+							/>
+						</div>
+						<div className="col-span-1">
+							<SlotsSuggestionsSidebar bookings={bookings} duration={60} />
+						</div>
 					</div>
 				</div>
 			</section>

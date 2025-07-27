@@ -3,6 +3,7 @@ import useFindBestScheduleSlots from "../../hooks/useFindBestScheduleSlots";
 import { useTestTherapists } from "../../hooks/useTestTherapists";
 import { findBestScheduleSlots } from "../../lib/slotfinder";
 import type { Booking, Therapist } from "../../types/domain";
+import type { ModalPayload } from "../../types/calendar";
 import { generateIntervalSlots } from "../../utils/grid";
 import {
 	TIME_GRID_BASE_HOUR,
@@ -21,10 +22,12 @@ import { Avatar } from "../../tw-components/avatar";
 
 interface SwapSidebarProps {
 	bookings: Booking[];
+	openModal: (payload: ModalPayload) => void;
 }
 
 export default function SlotsSuggestionsSidebar({
 	bookings,
+	openModal,
 }: SwapSidebarProps) {
 	// Use internal duration state
 	const { selectedDuration, handleDurationChange } = useDurationSelector(60);
@@ -64,7 +67,8 @@ export default function SlotsSuggestionsSidebar({
 	const renderSlotList = (
 		slots: string[],
 		variant: "optimal" | "acceptable" | "available",
-		label: string
+		label: string,
+		therapistId: string
 	) => {
 		if (slots.length === 0) return null;
 
@@ -100,10 +104,21 @@ export default function SlotsSuggestionsSidebar({
 					{slots.map((slot, slotIdx) => {
 						const startTime = formatTime(slot);
 						const endTime = calculateEndTime(slot, selectedDuration);
+						
+						// Convert time string to number for modal (matching TimeGrid format)
+						// "16:30" -> 16.5, "16:00" -> 16.0
+						const [hours, minutes] = slot.split(':').map(Number);
+						const timeNumber = hours + (minutes / 60);
+						
 						return (
-							<div
+							<button
 								key={slotIdx}
-								className="group relative rounded-lg border border-zinc-950/10 bg-white px-3 py-2.5 shadow-sm transition-all hover:bg-zinc-50 hover:shadow-md cursor-pointer dark:border-white/10 dark:bg-zinc-900 dark:hover:bg-zinc-800"
+								className="group relative rounded-lg border border-zinc-950/10 bg-white px-3 py-2.5 shadow-sm transition-all hover:bg-zinc-50 hover:shadow-md cursor-pointer dark:border-white/10 dark:bg-zinc-900 dark:hover:bg-zinc-800 w-full text-left"
+								onClick={() => openModal({ 
+									type: "new", 
+									time: timeNumber, 
+									therapistId: therapistId 
+								})}
 							>
 								<div className="flex items-center justify-between">
 									<Code className="!bg-transparent !border-0 !px-0 font-mono text-sm font-semibold">
@@ -111,7 +126,7 @@ export default function SlotsSuggestionsSidebar({
 									</Code>
 									<Text className="!text-xs">{selectedDuration}min</Text>
 								</div>
-							</div>
+							</button>
 						);
 					})}
 				</div>
@@ -164,7 +179,8 @@ export default function SlotsSuggestionsSidebar({
 					{renderSlotList(
 						emptyScheduleSlots.strict,
 						"available",
-						"Recommended"
+						"Recommended",
+						therapist.id
 					)}
 				</div>
 			</div>
@@ -214,8 +230,8 @@ export default function SlotsSuggestionsSidebar({
 				</div>
 				{/* Available Slots */}
 				<div className="space-y-6">
-					{renderSlotList(bestSlots.strict, "optimal", "Optimal")}
-					{renderSlotList(bestSlots.soft, "acceptable", "Acceptable")}
+					{renderSlotList(bestSlots.strict, "optimal", "Optimal", therapist.id)}
+					{renderSlotList(bestSlots.soft, "acceptable", "Acceptable", therapist.id)}
 				</div>
 			</div>
 		);

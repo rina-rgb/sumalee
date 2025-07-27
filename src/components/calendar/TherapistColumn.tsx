@@ -106,17 +106,19 @@ export default function TherapistColumn({
 				aria-colindex={colIdx + 2}
 				aria-label={`Edit ${booking.service} for ${customer?.firstName} ${customer?.lastName} at ${booking.start}`}
 				type="button"
-				className={`right-1 left-1 absolute bg-gray-100 px-2 rounded-md text-xs ${
+				className={`right-1 left-1 absolute bg-gray-100 hover:bg-gray-200 px-2 rounded-md text-xs ${
 					isDragging ? "cursor-grabbing" : "cursor-grab"
 				}`}
 				style={{ ...style, ...dragStyle }}
 				onClick={() => openModal({ type: "edit", booking })}
 			>
-				<div className="font-medium">
+				<div className="font-semibold text-gray-600 hover:text-gray-800">
 					{customer?.firstName} {customer?.lastName}
 				</div>
-				<div>{booking.service}</div>
-				<div className="text-gray-500">
+				<div className="text-gray-500 hover:text-gray-700">
+					{booking.service}
+				</div>
+				<div className="text-gray-500 hover:text-gray-700">
 					{booking.start} – {booking.end}
 				</div>
 			</button>

@@ -59,16 +59,16 @@ export default function TimeGrid({
 				<div
 					role="columnheader"
 					aria-colindex={1}
-					className="font-bold py-6 border-r border-gray-100"
+					className="font-semibold py-6 border-r border-gray-100"
 				>
-					Time
+					{}
 				</div>
 				{therapists.map((t, colIdx) => (
 					<div
 						key={t.id}
 						role="columnheader"
 						aria-colindex={colIdx + 2}
-						className="font-bold text-center py-6 border-r border-gray-100"
+						className="font-semibold text-center py-6 border-r border-gray-100"
 					>
 						{t.name}
 					</div>

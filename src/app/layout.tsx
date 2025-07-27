@@ -1,20 +1,23 @@
-import { Metadata } from 'next'
+import { Metadata } from "next";
+import { Inter } from "next/font/google";
+
+const inter = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
-  title: 'My App',
-  description: 'My App is a...',
-}
+	title: "🪷 Sumalee",
+	description: "Soothing booking experience",
+};
 
 export default function RootLayout({
-  children,
+	children,
 }: {
-  children: React.ReactNode
+	children: React.ReactNode;
 }) {
-  return (
-    <html lang="en">
-      <body>
-        <div id="root">{children}</div>
-      </body>
-    </html>
-  )
+	return (
+		<html lang="en">
+			<body className={inter.className}>
+				<div id="root">{children}</div>
+			</body>
+		</html>
+	);
 }

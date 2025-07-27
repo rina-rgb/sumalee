@@ -4,12 +4,14 @@ import { useTestTherapists } from "../../hooks/useTestTherapists";
 import { findBestScheduleSlots } from "../../lib/slotfinder";
 import type { Booking, Therapist } from "../../types/domain";
 import { generateIntervalSlots } from "../../utils/grid";
-import { 
-	TIME_GRID_BASE_HOUR, 
-	TIME_GRID_END_HOUR, 
-	TIME_GRID_INTERVAL_MINUTES, 
-	TIME_GRID_ROW_HEIGHT 
+import {
+	TIME_GRID_BASE_HOUR,
+	TIME_GRID_END_HOUR,
+	TIME_GRID_INTERVAL_MINUTES,
+	TIME_GRID_ROW_HEIGHT,
 } from "../../utils/constants";
+import { useDurationSelector } from "../../hooks/useDurationSelector";
+import DurationSelector from "../ui/DurationSelector";
 
 // Import premium Tailwind UI components
 import { Badge } from "../../tw-components/badge";
@@ -19,16 +21,16 @@ import { Avatar } from "../../tw-components/avatar";
 
 interface SwapSidebarProps {
 	bookings: Booking[];
-	duration: number;
 }
 
 export default function SlotsSuggestionsSidebar({
 	bookings,
-	duration, // in minutes
 }: SwapSidebarProps) {
-	const proposals = useFindBestScheduleSlots(bookings, duration);
+	// Use internal duration state
+	const { selectedDuration, handleDurationChange } = useDurationSelector(60);
+	const proposals = useFindBestScheduleSlots(bookings, selectedDuration);
 	const { therapists } = useTestTherapists();
-	
+
 	// Calculate the exact height to match the schedule
 	const intervalSlots = generateIntervalSlots(
 		TIME_GRID_BASE_HOUR,
@@ -36,7 +38,8 @@ export default function SlotsSuggestionsSidebar({
 		TIME_GRID_INTERVAL_MINUTES
 	);
 	const headerHeight = 72; // Approximate header height (py-6 = 24px top + 24px bottom + content)
-	const scheduleHeight = intervalSlots.length * TIME_GRID_ROW_HEIGHT + headerHeight;
+	const scheduleHeight =
+		intervalSlots.length * TIME_GRID_ROW_HEIGHT + headerHeight;
 
 	console.log(proposals);
 
@@ -83,7 +86,10 @@ export default function SlotsSuggestionsSidebar({
 				{/* Section Header */}
 				<div className="flex items-center gap-2">
 					<span className="text-sm">{icons[variant]}</span>
-					<Subheading level={4} className="!text-sm !font-medium">
+					<Subheading
+						level={4}
+						className="!text-xs !text-gray-500 !font-normal"
+					>
 						{label} Slots
 					</Subheading>
 					<Badge color={badgeColors[variant]}>{slots.length}</Badge>
@@ -93,7 +99,7 @@ export default function SlotsSuggestionsSidebar({
 				<div className="grid gap-2">
 					{slots.map((slot, slotIdx) => {
 						const startTime = formatTime(slot);
-						const endTime = calculateEndTime(slot, duration);
+						const endTime = calculateEndTime(slot, selectedDuration);
 						return (
 							<div
 								key={slotIdx}
@@ -103,7 +109,7 @@ export default function SlotsSuggestionsSidebar({
 									<Code className="!bg-transparent !border-0 !px-0 font-mono text-sm font-semibold">
 										{startTime} – {endTime}
 									</Code>
-									<Text className="!text-xs">{duration}min</Text>
+									<Text className="!text-xs">{selectedDuration}min</Text>
 								</div>
 							</div>
 						);
@@ -115,7 +121,7 @@ export default function SlotsSuggestionsSidebar({
 
 	// Helper: Render therapist with no bookings (fully available)
 	const renderAvailableTherapist = (therapist: Therapist, idx: number) => {
-		const emptyScheduleSlots = findBestScheduleSlots(duration, []);
+		const emptyScheduleSlots = findBestScheduleSlots(selectedDuration, []);
 		console.log(
 			`Empty schedule slots for ${therapist.name}:`,
 			emptyScheduleSlots
@@ -202,14 +208,10 @@ export default function SlotsSuggestionsSidebar({
 						className="size-10"
 					/>
 					<div className="flex-1">
-						<Subheading level={3} className="!text-base">
-							{therapist.name}
-						</Subheading>
-						<Text className="!text-xs">{totalSlots} slots available</Text>
+						<Text className="font-semibold !text-black">{therapist.name}</Text>
+						{/* <Text className="!text-xs">{totalSlots} slots available</Text> */}
 					</div>
-					<Badge color="zinc">Busy</Badge>
 				</div>
-
 				{/* Available Slots */}
 				<div className="space-y-6">
 					{renderSlotList(bestSlots.strict, "optimal", "Optimal")}
@@ -237,6 +239,14 @@ export default function SlotsSuggestionsSidebar({
 
 			{/* Content */}
 			<div className="p-6">
+				{/* Duration Selector at the top */}
+				<div className="mb-6">
+					<DurationSelector
+						value={selectedDuration}
+						onChange={handleDurationChange}
+						label="Duration:"
+					/>
+				</div>
 				{therapists.length === 0 ? (
 					<div className="flex flex-col items-center justify-center py-12 text-center">
 						<div className="mb-4 flex size-12 items-center justify-center rounded-full bg-zinc-100 dark:bg-zinc-800">

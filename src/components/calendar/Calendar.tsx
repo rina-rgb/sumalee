@@ -140,7 +140,7 @@ export default function Calendar() {
 										delay: sidebarOpen ? 0.1 : 0
 									}}
 								>
-									<SlotsSuggestionsSidebar bookings={bookings} duration={60} />
+									<SlotsSuggestionsSidebar bookings={bookings} />
 								</motion.div>
 							</motion.div>
 						</div>

@@ -31,7 +31,10 @@ export default function SlotsSuggestionsSidebar({
 }: SwapSidebarProps) {
 	// Use internal duration state
 	const { selectedDuration, handleDurationChange } = useDurationSelector(60);
-	const proposals = useFindBestScheduleSlots(bookings, selectedDuration);
+	const { suggestions: proposals } = useFindBestScheduleSlots(
+		bookings,
+		selectedDuration
+	);
 	const { therapists } = useTestTherapists();
 
 	// Calculate the exact height to match the schedule
@@ -104,21 +107,23 @@ export default function SlotsSuggestionsSidebar({
 					{slots.map((slot, slotIdx) => {
 						const startTime = formatTime(slot);
 						const endTime = calculateEndTime(slot, selectedDuration);
-						
+
 						// Convert time string to number for modal (matching TimeGrid format)
 						// "16:30" -> 16.5, "16:00" -> 16.0
-						const [hours, minutes] = slot.split(':').map(Number);
-						const timeNumber = hours + (minutes / 60);
-						
+						const [hours, minutes] = slot.split(":").map(Number);
+						const timeNumber = hours + minutes / 60;
+
 						return (
 							<button
 								key={slotIdx}
 								className="group relative rounded-lg border border-zinc-950/10 bg-white px-3 py-2.5 shadow-sm transition-all hover:bg-zinc-50 hover:shadow-md cursor-pointer dark:border-white/10 dark:bg-zinc-900 dark:hover:bg-zinc-800 w-full text-left"
-								onClick={() => openModal({ 
-									type: "new", 
-									time: timeNumber, 
-									therapistId: therapistId 
-								})}
+								onClick={() =>
+									openModal({
+										type: "new",
+										time: timeNumber,
+										therapistId: therapistId,
+									})
+								}
 							>
 								<div className="flex items-center justify-between">
 									<Code className="!bg-transparent !border-0 !px-0 font-mono text-sm font-semibold">
@@ -231,7 +236,12 @@ export default function SlotsSuggestionsSidebar({
 				{/* Available Slots */}
 				<div className="space-y-6">
 					{renderSlotList(bestSlots.strict, "optimal", "Optimal", therapist.id)}
-					{renderSlotList(bestSlots.soft, "acceptable", "Acceptable", therapist.id)}
+					{renderSlotList(
+						bestSlots.soft,
+						"acceptable",
+						"Acceptable",
+						therapist.id
+					)}
 				</div>
 			</div>
 		);

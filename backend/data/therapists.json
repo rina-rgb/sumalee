@@ -1,0 +1,197 @@
+[
+  {
+    "id": "64189085-5d94-450f-8fa9-3d6421eaf7a9",
+    "name": "Debra Mccarty",
+    "avatarUrl": "https://dummyimage.com/653x434",
+    "color": "rgb(116, 34, 221)",
+    "specialties": [
+      "chiropractic",
+      "massage"
+    ],
+    "timeZone": "America/Los_Angeles",
+    "availability": [
+      {
+        "weekday": 0,
+        "startHour": 9,
+        "endHour": 12
+      },
+      {
+        "weekday": 1,
+        "startHour": 9,
+        "endHour": 12
+      },
+      {
+        "weekday": 2,
+        "startHour": 9,
+        "endHour": 12
+      },
+      {
+        "weekday": 3,
+        "startHour": 9,
+        "endHour": 12
+      },
+      {
+        "weekday": 4,
+        "startHour": 9,
+        "endHour": 12
+      },
+      {
+        "weekday": 0,
+        "startHour": 13,
+        "endHour": 17
+      },
+      {
+        "weekday": 1,
+        "startHour": 13,
+        "endHour": 17
+      },
+      {
+        "weekday": 2,
+        "startHour": 13,
+        "endHour": 17
+      },
+      {
+        "weekday": 3,
+        "startHour": 13,
+        "endHour": 17
+      },
+      {
+        "weekday": 4,
+        "startHour": 13,
+        "endHour": 17
+      }
+    ],
+    "createdAt": "2025-07-23",
+    "updatedAt": "2025-07-20"
+  },
+  {
+    "id": "03071bbf-54f7-45a9-b0e1-03d779b2eadb",
+    "name": "Jerry Griffin",
+    "avatarUrl": "https://dummyimage.com/794x275",
+    "color": "rgb(207, 72, 81)",
+    "specialties": [
+      "pt",
+      "chiropractic"
+    ],
+    "timeZone": "America/Los_Angeles",
+    "availability": [
+      {
+        "weekday": 0,
+        "startHour": 9,
+        "endHour": 12
+      },
+      {
+        "weekday": 1,
+        "startHour": 9,
+        "endHour": 12
+      },
+      {
+        "weekday": 2,
+        "startHour": 9,
+        "endHour": 12
+      },
+      {
+        "weekday": 3,
+        "startHour": 9,
+        "endHour": 12
+      },
+      {
+        "weekday": 4,
+        "startHour": 9,
+        "endHour": 12
+      },
+      {
+        "weekday": 0,
+        "startHour": 13,
+        "endHour": 17
+      },
+      {
+        "weekday": 1,
+        "startHour": 13,
+        "endHour": 17
+      },
+      {
+        "weekday": 2,
+        "startHour": 13,
+        "endHour": 17
+      },
+      {
+        "weekday": 3,
+        "startHour": 13,
+        "endHour": 17
+      },
+      {
+        "weekday": 4,
+        "startHour": 13,
+        "endHour": 17
+      }
+    ],
+    "createdAt": "2025-07-09",
+    "updatedAt": "2025-07-21"
+  },
+  {
+    "id": "733bc107-7661-44d4-a60b-0e2327fc1043",
+    "name": "Haley Taylor",
+    "avatarUrl": "https://placekitten.com/488/529",
+    "color": "rgb(164, 217, 74)",
+    "specialties": [
+      "acupuncture",
+      "chiropractic"
+    ],
+    "timeZone": "America/Los_Angeles",
+    "availability": [
+      {
+        "weekday": 0,
+        "startHour": 9,
+        "endHour": 12
+      },
+      {
+        "weekday": 1,
+        "startHour": 9,
+        "endHour": 12
+      },
+      {
+        "weekday": 2,
+        "startHour": 9,
+        "endHour": 12
+      },
+      {
+        "weekday": 3,
+        "startHour": 9,
+        "endHour": 12
+      },
+      {
+        "weekday": 4,
+        "startHour": 9,
+        "endHour": 12
+      },
+      {
+        "weekday": 0,
+        "startHour": 13,
+        "endHour": 17
+      },
+      {
+        "weekday": 1,
+        "startHour": 13,
+        "endHour": 17
+      },
+      {
+        "weekday": 2,
+        "startHour": 13,
+        "endHour": 17
+      },
+      {
+        "weekday": 3,
+        "startHour": 13,
+        "endHour": 17
+      },
+      {
+        "weekday": 4,
+        "startHour": 13,
+        "endHour": 17
+      }
+    ],
+    "createdAt": "2025-07-15",
+    "updatedAt": "2025-07-20"
+  }
+]

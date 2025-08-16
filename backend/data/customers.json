@@ -1,0 +1,92 @@
+[
+  {
+    "id": "a8d0e76f-7a72-48b5-9777-a1a34371b8bb",
+    "firstName": "Robert",
+    "lastName": "Garcia",
+    "email": "kfernandez@example.com",
+    "phone": "665-291-7689x6892",
+    "avatarUrl": "https://dummyimage.com/91x975",
+    "createdAt": "2025-07-02"
+  },
+  {
+    "id": "5d382393-b9e7-4239-8d54-ea0266fdffed",
+    "firstName": "Tonya",
+    "lastName": "Flores",
+    "email": "lbennett@example.net",
+    "phone": "716.228.3762x13654",
+    "avatarUrl": "https://picsum.photos/1003/805",
+    "createdAt": "2025-07-17"
+  },
+  {
+    "id": "c7b6ae9e-da61-461e-bb06-98cc3e24b0c7",
+    "firstName": "Brittany",
+    "lastName": "Flores",
+    "email": "lawrence74@example.net",
+    "phone": "001-855-408-9671x5109",
+    "avatarUrl": "https://picsum.photos/762/284",
+    "createdAt": "2025-07-20"
+  },
+  {
+    "id": "91d8bea2-9a9e-4909-b450-d0149239b705",
+    "firstName": "Daniel",
+    "lastName": "Melton",
+    "email": "ffletcher@example.org",
+    "phone": "(574)944-8846x935",
+    "avatarUrl": "https://dummyimage.com/873x522",
+    "createdAt": "2025-07-23"
+  },
+  {
+    "id": "98af0957-9791-4739-94f9-b7a7666c4983",
+    "firstName": "Erica",
+    "lastName": "Hamilton",
+    "email": "bradleyjenkins@example.com",
+    "phone": "(760)302-8192x68690",
+    "avatarUrl": "https://picsum.photos/269/16",
+    "createdAt": "2025-07-20"
+  },
+  {
+    "id": "b5fb8ea3-3714-4902-a5e2-886d077f92c0",
+    "firstName": "Kristin",
+    "lastName": "Johnson",
+    "email": "dweaver@example.org",
+    "phone": "(952)362-5926x58320",
+    "avatarUrl": "https://dummyimage.com/1014x514",
+    "createdAt": "2025-07-12"
+  },
+  {
+    "id": "30a9a341-1b5a-4862-960c-3ea8245fde42",
+    "firstName": "Christina",
+    "lastName": "Mcclain",
+    "email": "anthonymeyer@example.net",
+    "phone": "001-507-712-7590x9018",
+    "avatarUrl": "https://placekitten.com/807/383",
+    "createdAt": "2025-07-24"
+  },
+  {
+    "id": "9ee39a11-0c2a-48e2-938d-65a9e9b9f3e8",
+    "firstName": "Charlotte",
+    "lastName": "Walls",
+    "email": "robin73@example.com",
+    "phone": "(478)729-2769",
+    "avatarUrl": "https://picsum.photos/146/650",
+    "createdAt": "2025-07-24"
+  },
+  {
+    "id": "3784fd98-a806-47ef-9d1b-0b034f63c6fc",
+    "firstName": "Stephanie",
+    "lastName": "Clark",
+    "email": "apalmer@example.net",
+    "phone": "(474)862-6907x790",
+    "avatarUrl": "https://dummyimage.com/372x1018",
+    "createdAt": "2025-07-24"
+  },
+  {
+    "id": "c487d2ce-beef-49ff-88cc-b8ae33054c28",
+    "firstName": "John",
+    "lastName": "Morris",
+    "email": "lorilawrence@example.net",
+    "phone": "+1-780-983-7276x57450",
+    "avatarUrl": "https://placekitten.com/395/957",
+    "createdAt": "2025-07-19"
+  }
+]
